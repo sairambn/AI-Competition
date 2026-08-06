@@ -4,48 +4,55 @@
 Department of Artificial Intelligence & Machine Learning  
 **Jeppiaar Engineering College**
 
-A live event platform used to run an AI/ML problem-solving competition. Teams enter their size, receive a matched software problem statement, and build solutions for real department challenges.
+Live event platform: problem ideas gallery, smart problem assignment by team size, full agenda (what / when / how), and animated UI.
 
-## Event snapshot
+## Event
 
-| Detail | Value |
-|--------|--------|
+| | |
+|--|--|
 | **Date** | Friday, 07 August 2026 |
-| **Time** | 10:30 AM – 12:00 PM |
+| **Time** | 10:00 AM – 12:10 PM |
 | **Venue** | Elite Seminar Hall |
 | **Organiser** | Dept. of AI & ML, Jeppiaar Engineering College |
 
+## Agenda (on the site)
+
+| Time | What |
+|------|------|
+| 10:00 | Registration & team check-in |
+| 10:30 | Problem statement release (via this site) |
+| 10:45 | Build phase |
+| 11:40 | Presentations |
+| 12:00 | Winner announcement |
+
 ## Features
 
-- **Problem Ideas gallery** — 12 real department challenges (Easy → Extreme)
-- **Smart assignment** — problem matched to team size automatically
-- **Grand animations** — fade-up, card lift, hero glow, result reveal
-- **Schedule & rules** — clear timeline for participants
-- **Copy problem** — one-click copy for teams
+- **12 problem ideas** — Easy → Extreme, filterable gallery
+- **Smart generator** — assigns a problem matched to team size
+- **Full agenda** — every slot explains *what happens* and *how you do it*
+- **Animations** — fade-up, card lift, hero glow, result reveal
+- **Copy problem** — one click for teams
 
-## Tech stack
+## Stack
 
-- React 19 + TypeScript
-- Vite
-- Tailwind CSS v4
-- React Router
-- Fully client-side (no backend required)
+React 19 · TypeScript · Vite · Tailwind CSS v4 · React Router  
+Fully client-side — no backend required.
 
-## Run locally
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Deploy
+## Build & deploy
 
 ```bash
 npm run build
-# Deploy dist/ to Vercel, Netlify, or any static host
+npx vercel --prod
 ```
 
-Or import this repo on [vercel.com/new](https://vercel.com/new) for one-click deploy.
+Or import this repo at [vercel.com/new](https://vercel.com/new).
 
 ---
 
