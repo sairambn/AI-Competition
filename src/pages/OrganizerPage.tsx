@@ -1,40 +1,93 @@
-import { ExternalLink, Mail, ListChecks, Rocket, AlertCircle, Users } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ExternalLink, Users, ListChecks, GitPullRequest, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
 
-const ORGANIZER_EMAIL = "bnsairam14@gmail.com";
 const REPO = "https://github.com/sairambn/AI-Competition";
+const ORGANIZER_EMAIL = "sairam@jeppiaarcollege.org";
 
 export function OrganizerPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-10 animate-fade-up text-center">
         <span className="mb-3 inline-flex rounded-full bg-accent/90 px-3 py-1 text-xs font-semibold text-accent-foreground">
-          Organizer only
+          Organizer
         </span>
         <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
-          Run the event
+          Event control
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Assignments, submissions, and judging in one place.
+          Where teams land, and how you track them.
+        </p>
+      </div>
+
+      <div className="mb-8 rounded-xl border border-border bg-card p-5 text-sm">
+        <h2 className="font-semibold text-foreground">Registration (live)</h2>
+        <p className="mt-2 text-muted-foreground">
+          When a team taps <strong className="text-foreground">Register</strong>, three things happen:
+        </p>
+        <ol className="mt-3 space-y-2 text-muted-foreground">
+          <li className="flex gap-2">
+            <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span>WhatsApp opens with team + problem pre-filled — they send it to you</span>
+          </li>
+          <li className="flex gap-2">
+            <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span>
+              Email goes to <code className="text-xs text-foreground">{ORGANIZER_EMAIL}</code>
+            </span>
+          </li>
+          <li className="flex gap-2">
+            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span>Summary is copied to their clipboard as backup</span>
+          </li>
+        </ol>
+        <p className="mt-3 text-xs text-muted-foreground">
+          First-time email: activate FormSubmit via the link sent to your inbox (one time only).
         </p>
       </div>
 
       <div className="space-y-4">
         <a
           href={`mailto:${ORGANIZER_EMAIL}`}
-          className="card-lift flex items-center gap-4 rounded-xl border border-gold/40 bg-parchment p-6 shadow-sm transition hover:border-gold"
+          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
         >
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <Mail className="h-7 w-7" />
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Mail className="h-6 w-6" />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-foreground">Solution emails</h2>
-            <p className="text-sm text-muted-foreground">
-              Inbox: <strong>{ORGANIZER_EMAIL}</strong> — subject starts with{" "}
-              <code className="text-xs">[AI-Thon Solution]</code>
-            </p>
+            <h2 className="font-semibold text-foreground">Assignment emails</h2>
+            <p className="text-sm text-muted-foreground">{ORGANIZER_EMAIL}</p>
           </div>
-          <ExternalLink className="h-5 w-5 text-muted-foreground" />
+        </a>
+
+        <a
+          href={`${REPO}/pulls?q=is%3Apr+[Solution]`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <GitPullRequest className="h-6 w-6" />
+          </div>
+          <div className="flex-1">
+            <h2 className="font-semibold text-foreground">Solution PRs</h2>
+            <p className="text-sm text-muted-foreground">Code under solutions/ via Pull Request</p>
+          </div>
+          <ExternalLink className="h-4 w-4 text-muted-foreground" />
+        </a>
+
+        <a
+          href={`${REPO}/tree/main/solutions`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+            <Users className="h-6 w-6" />
+          </div>
+          <div className="flex-1">
+            <h2 className="font-semibold text-foreground">solutions/ folder</h2>
+            <p className="text-sm text-muted-foreground">Merged team folders</p>
+          </div>
+          <ExternalLink className="h-4 w-4 text-muted-foreground" />
         </a>
 
         <a
@@ -43,79 +96,26 @@ export function OrganizerPage() {
           rel="noopener noreferrer"
           className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
         >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
             <ListChecks className="h-6 w-6" />
           </div>
           <div className="flex-1">
-            <h2 className="font-semibold text-foreground">Registered team assignments</h2>
-            <p className="text-sm text-muted-foreground">
-              GitHub Issues with <code className="text-xs">[Assignment]</code>
-            </p>
-          </div>
-          <ExternalLink className="h-4 w-4 text-muted-foreground" />
-        </a>
-
-        <Link
-          to="/submit"
-          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
-        >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/30 text-accent-foreground">
-            <Rocket className="h-6 w-6" />
-          </div>
-          <div className="flex-1">
-            <h2 className="font-semibold text-foreground">Team submit page</h2>
-            <p className="text-sm text-muted-foreground">
-              Where teams paste Vercel links
-            </p>
-          </div>
-        </Link>
-
-        <a
-          href={`${REPO}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
-        >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground">
-            <Users className="h-6 w-6" />
-          </div>
-          <div className="flex-1">
-            <h2 className="font-semibold text-foreground">Event repository</h2>
-            <p className="text-sm text-muted-foreground">Code, docs, optional code archives</p>
+            <h2 className="font-semibold text-foreground">Legacy assignment issues</h2>
+            <p className="text-sm text-muted-foreground">Optional GitHub Issues filter</p>
           </div>
           <ExternalLink className="h-4 w-4 text-muted-foreground" />
         </a>
       </div>
 
-      <div className="mt-10 rounded-xl border border-border bg-card p-6 text-sm">
-        <h3 className="flex items-center gap-2 font-semibold text-foreground">
-          <AlertCircle className="h-4 w-4 text-gold" />
-          Event-day checklist
-        </h3>
-        <ol className="mt-4 list-decimal space-y-3 pl-5 text-muted-foreground">
-          <li>
-            <strong>10:30</strong> — Teams open Problems → get assignment → Register on
-            GitHub Issues.
-          </li>
-          <li>
-            <strong>Build</strong> — Teams deploy to Vercel (or any public URL).
-          </li>
-          <li>
-            <strong>Submit</strong> — Teams use /submit; you receive table emails.
-          </li>
-          <li>
-            <strong>Present</strong> — Open each live URL; score clarity, department
-            usefulness, demo quality.
-          </li>
-          <li>
-            <strong>12:00</strong> — Announce winners.
-          </li>
+      <div className="mt-10 rounded-xl border border-border bg-parchment p-6 text-sm">
+        <h3 className="font-semibold text-foreground">Suggested run-of-show</h3>
+        <ol className="mt-3 list-decimal space-y-2 pl-5 text-muted-foreground">
+          <li>10:30 — Teams generate + Register (watch WhatsApp / email)</li>
+          <li>10:45–11:40 — Build</li>
+          <li>Teams push a folder under <code className="text-xs">solutions/</code> and open a PR</li>
+          <li>11:40 — Presentations (2–3 min)</li>
+          <li>Score: clarity · usefulness · demo</li>
         </ol>
-        <p className="mt-4 rounded-lg bg-parchment px-4 py-3 text-foreground">
-          <strong>Tip:</strong> Keep Gmail open filtered by{" "}
-          <code className="text-xs">[AI-Thon Solution]</code>. First FormSubmit
-          email may need a one-time confirm link.
-        </p>
       </div>
     </div>
   );
