@@ -1,19 +1,26 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  GitBranch, Copy, Check, Terminal, FolderGit2, ExternalLink, Users, Lightbulb,
+  Check,
+  Copy,
+  ExternalLink,
+  Globe,
+  Lightbulb,
+  Mail,
+  Rocket,
+  Users,
 } from "lucide-react";
 import { PROBLEMS } from "@/data/problems";
 
-const REPO = "https://github.com/sairambn/AI-Competition";
-
-function slugify(name: string) {
-  return name
-    .trim()
-    .replace(/[^a-zA-Z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .slice(0, 40) || "Your-Team";
+function isValidVercelUrl(url: string) {
+  try {
+    const u = new URL(url.trim());
+    if (u.protocol !== "https:" && u.protocol !== "http:") return false;
+    // Accept vercel.app and custom domains
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function SubmitPage() {
@@ -21,89 +28,175 @@ export function SubmitPage() {
   const [teamName, setTeamName] = useState(searchParams.get("team") ?? "");
   const [problemId, setProblemId] = useState(searchParams.get("problem") ?? "");
   const [contactEmail, setContactEmail] = useState("");
-  const [techStack, setTechStack] = useState("");
-  const [copied, setCopied] = useState<string | null>(null);
+  const [vercelUrl, setVercelUrl] = useState("");
+  const [repoUrl, setRepoUrl] = useState("");
+  const [notes, setNotes] = useState("");
+  const [teamSize, setTeamSize] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const selected = PROBLEMS.find((p) => p.id === problemId);
-  const folder = slugify(teamName || "Your-Team");
-  const branch = `solution/${folder.toLowerCase()}`;
 
-  const readmeTemplate = `# ${teamName || "Your Team Name"}
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
 
-**Problem:** ${selected?.title ?? "[Problem Title]"}  
-**Team size:** [X]  
-**Contact:** ${contactEmail || "email@example.com"}  
-**Tech stack:** ${techStack || "React / Python / ..."}
+    if (!teamName.trim()) {
+      setError("Team name is required.");
+      return;
+    }
+    if (!contactEmail.trim() || !contactEmail.includes("@")) {
+      setError("A valid contact email is required.");
+      return;
+    }
+    if (!problemId) {
+      setError("Please select the problem you solved.");
+      return;
+    }
+    if (!vercelUrl.trim() || !isValidVercelUrl(vercelUrl)) {
+      setError("Please enter a valid Vercel / deployment URL (https://…).");
+      return;
+    }
 
-## What we built
-Short description of your solution (2–4 sentences).
+    // Persist locally so the team can re-open and copy later
+    const entry = {
+      teamName: teamName.trim(),
+      contactEmail: contactEmail.trim(),
+      problemId,
+      problemTitle: selected?.title ?? "",
+      vercelUrl: vercelUrl.trim(),
+      repoUrl: repoUrl.trim() || null,
+      notes: notes.trim() || null,
+      teamSize: teamSize.trim() || null,
+      submittedAt: new Date().toISOString(),
+    };
+    try {
+      const existing = JSON.parse(
+        localStorage.getItem("ai-thon-submissions") || "[]"
+      ) as unknown[];
+      existing.push(entry);
+      localStorage.setItem("ai-thon-submissions", JSON.stringify(existing));
+    } catch {
+      // ignore storage errors
+    }
 
-## How to run
-\`\`\`bash
-# install & run commands
-\`\`\`
+    setSubmitted(true);
+  }
 
-## Demo / Screenshots
-- Add images or a short demo link
+  const summary = `AI Problem Solve-a-Thon — Solution Submission
 
-## Notes for judges
-Anything important for evaluation.
-`;
+Team: ${teamName.trim()}
+Problem: ${selected?.title ?? "—"}
+Team size: ${teamSize || "—"}
+Contact: ${contactEmail.trim()}
+Vercel link: ${vercelUrl.trim()}
+${repoUrl.trim() ? `Repo: ${repoUrl.trim()}\n` : ""}${notes.trim() ? `Notes: ${notes.trim()}\n` : ""}Submitted: ${new Date().toLocaleString()}`;
 
-  const commands = `# 1. Fork the repo on GitHub (button top-right), then:
-git clone https://github.com/YOUR-USERNAME/AI-Competition.git
-cd AI-Competition
-
-# 2. Create your branch
-git checkout -b ${branch}
-
-# 3. Create your solution folder and README
-mkdir -p solutions/${folder}
-# (put your code inside solutions/${folder}/ )
-cat > solutions/${folder}/README.md << 'EOF'
-${readmeTemplate}
-EOF
-
-# 4. Commit & push
-git add solutions/${folder}
-git commit -m "solution: ${teamName || "Team"} — ${selected?.title ?? "Problem"}"
-git push -u origin ${branch}
-
-# 5. Open a Pull Request on GitHub
-# Title: [Solution] ${teamName || "Team Name"} — ${selected?.title ?? "Problem Title"}
-# Base repo: sairambn/AI-Competition
-`;
-
-  const copy = async (text: string, key: string) => {
-    await navigator.clipboard.writeText(text);
-    setCopied(key);
-    setTimeout(() => setCopied(null), 2000);
+  const copySummary = async () => {
+    await navigator.clipboard.writeText(summary);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
+  if (submitted) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="animate-fade-up rounded-2xl border border-primary/30 bg-card p-8 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <Check className="h-7 w-7" />
+          </div>
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+            Submission recorded
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            Your Vercel link has been saved on this device. Share the summary
+            with organizers / judges and present the live demo.
+          </p>
+
+          <div className="mt-6 rounded-xl border border-border bg-secondary/40 p-4 text-left text-sm">
+            <p className="font-semibold text-foreground">{teamName}</p>
+            <p className="mt-1 text-muted-foreground">{selected?.title}</p>
+            <a
+              href={vercelUrl.trim()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 break-all font-medium text-primary hover:underline"
+            >
+              <Globe className="h-4 w-4 shrink-0" />
+              {vercelUrl.trim()}
+            </a>
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => void copySummary()}
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              {copied ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+              {copied ? "Copied" : "Copy summary for judges"}
+            </button>
+            <a
+              href={vercelUrl.trim()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary"
+            >
+              Open live demo <ExternalLink className="h-4 w-4" />
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setSubmitted(false);
+                setVercelUrl("");
+                setNotes("");
+              }}
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary"
+            >
+              Submit another
+            </button>
+          </div>
+
+          <p className="mt-8 text-xs text-muted-foreground">
+            Tip: Keep the Vercel link open during the presentation slot (2–3
+            min).
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-10 animate-fade-up text-center">
         <span className="mb-3 inline-flex rounded-full bg-accent/90 px-3 py-1 text-xs font-semibold text-accent-foreground">
-          GitHub Submission
+          Solution Submission
         </span>
         <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
-          Submit via Pull Request
+          Submit your Vercel link
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Push your solution as <strong>one folder</strong> under{" "}
-          <code className="rounded bg-secondary px-1.5 py-0.5 text-xs">solutions/</code>{" "}
-          in this repository.
+          Deploy your solution on Vercel (or any public URL) and submit the live
+          link here. Judges will open it during review and presentations.
         </p>
       </div>
 
-      <div className="mb-8 space-y-5 rounded-xl border border-border bg-card p-6 shadow-sm">
-        <h2 className="flex items-center gap-2 text-lg font-semibold">
-          <Users className="h-5 w-5 text-gold" /> Personalize your commands
-        </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 rounded-xl border border-border bg-card p-6 shadow-sm"
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Team Name</label>
+            <label className="flex items-center gap-1.5 text-sm font-medium">
+              <Users className="h-3.5 w-3.5 text-gold" /> Team Name *
+            </label>
             <input
+              required
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
               placeholder="Code Warriors"
@@ -111,21 +204,39 @@ git push -u origin ${branch}
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Contact Email</label>
+            <label className="text-sm font-medium">Team size</label>
             <input
-              type="email"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
-              placeholder="team@college.edu"
+              type="number"
+              min={1}
+              max={20}
+              value={teamSize}
+              onChange={(e) => setTeamSize(e.target.value)}
+              placeholder="4"
               className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
             />
           </div>
         </div>
+
         <div className="space-y-1.5">
           <label className="flex items-center gap-1.5 text-sm font-medium">
-            <Lightbulb className="h-3.5 w-3.5 text-gold" /> Assigned Problem
+            <Mail className="h-3.5 w-3.5 text-gold" /> Contact email *
+          </label>
+          <input
+            required
+            type="email"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+            placeholder="team@college.edu"
+            className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="flex items-center gap-1.5 text-sm font-medium">
+            <Lightbulb className="h-3.5 w-3.5 text-gold" /> Problem solved *
           </label>
           <select
+            required
             value={problemId}
             onChange={(e) => setProblemId(e.target.value)}
             className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
@@ -138,91 +249,70 @@ git push -u origin ${branch}
             ))}
           </select>
         </div>
+
         <div className="space-y-1.5">
-          <label className="text-sm font-medium">Tech stack (optional)</label>
+          <label className="flex items-center gap-1.5 text-sm font-medium">
+            <Rocket className="h-3.5 w-3.5 text-gold" /> Vercel / live URL *
+          </label>
           <input
-            value={techStack}
-            onChange={(e) => setTechStack(e.target.value)}
-            placeholder="React, Node, Tailwind…"
+            required
+            type="url"
+            value={vercelUrl}
+            onChange={(e) => setVercelUrl(e.target.value)}
+            placeholder="https://your-project.vercel.app"
+            className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
+          />
+          <p className="text-xs text-muted-foreground">
+            Must be publicly accessible. Prefer a Vercel deployment.
+          </p>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium">
+            GitHub / code repo (optional)
+          </label>
+          <input
+            type="url"
+            value={repoUrl}
+            onChange={(e) => setRepoUrl(e.target.value)}
+            placeholder="https://github.com/…"
             className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
           />
         </div>
-      </div>
 
-      <section className="mb-8">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="flex items-center gap-2 text-lg font-semibold">
-            <Terminal className="h-5 w-5 text-gold" /> Commands to type
-          </h2>
-          <button
-            type="button"
-            onClick={() => copy(commands, "cmds")}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium hover:bg-secondary"
-          >
-            {copied === "cmds" ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5" />}
-            {copied === "cmds" ? "Copied" : "Copy all"}
-          </button>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium">Notes for judges (optional)</label>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={3}
+            placeholder="Login credentials, special instructions, tech stack…"
+            className="w-full resize-y rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none ring-ring focus:ring-2"
+          />
         </div>
-        <pre className="overflow-x-auto rounded-xl border border-border bg-[#1e1e1e] p-4 text-[13px] leading-relaxed text-[#d4d4d4]">
-          {commands}
-        </pre>
-      </section>
 
-      <section className="mb-8 grid gap-6 sm:grid-cols-2">
-        <div className="rounded-xl border border-border bg-card p-5">
-          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
-            <FolderGit2 className="h-4 w-4 text-gold" /> Your folder
-          </h3>
-          <pre className="rounded-lg bg-secondary/60 p-3 text-xs text-foreground">
-{`solutions/
-└── ${folder}/
-    ├── README.md
-    └── (your code)`}
-          </pre>
-        </div>
-        <div className="rounded-xl border border-border bg-card p-5">
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
-              <GitBranch className="h-4 w-4 text-gold" /> Branch name
-            </h3>
-            <button
-              type="button"
-              onClick={() => copy(branch, "branch")}
-              className="text-xs text-muted-foreground hover:text-foreground"
-            >
-              {copied === "branch" ? "Copied" : "Copy"}
-            </button>
-          </div>
-          <code className="block rounded-lg bg-secondary/60 px-3 py-2 text-sm">{branch}</code>
-        </div>
-      </section>
+        {error && (
+          <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {error}
+          </p>
+        )}
 
-      <div className="flex flex-wrap gap-3">
-        <a
-          href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        <button
+          type="submit"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:w-auto"
         >
-          Open GitHub repo <ExternalLink className="h-4 w-4" />
-        </a>
-        <a
-          href={`${REPO}/tree/main/solutions`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary"
-        >
-          View solutions folder
-        </a>
-      </div>
+          <Rocket className="h-4 w-4" />
+          Submit solution
+        </button>
+      </form>
 
       <div className="mt-10 rounded-xl border border-gold/30 bg-parchment p-5 text-sm text-muted-foreground">
-        <p className="font-semibold text-foreground">Why this way?</p>
+        <p className="font-semibold text-foreground">How it works</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>Everything stays version-controlled under one place.</li>
-          <li>Judges review code + README directly in the Pull Request.</li>
-          <li>You practice the real software workflow (fork → branch → PR).</li>
-          <li>No browser upload size limits.</li>
+          <li>Deploy your app (Vercel recommended — free for students).</li>
+          <li>Paste the live URL above and submit.</li>
+          <li>Copy the summary and share it with organizers if asked.</li>
+          <li>Present the live demo in the presentation slot (2–3 min).</li>
         </ul>
       </div>
     </div>

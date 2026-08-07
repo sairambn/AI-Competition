@@ -1,58 +1,22 @@
 # Solutions
 
-All team submissions for **AI Problem Solve-a-Thon** live here.
+Teams submit **live deployment links** (preferably Vercel) via the **Submit** page on the event site.
 
-## How to submit (recommended)
+## How to submit
 
-1. Fork this repository (or clone if you have write access).
-2. Create a new branch: `solution/your-team-name`
-3. Create a folder: `solutions/Your-Team-Name/`
-4. Put your work inside that folder (code, screenshots, short demo notes).
-5. Add a `README.md` inside your folder (use the template below).
-6. Open a **Pull Request** titled:  
-   `[Solution] Your-Team-Name — Problem Title`
+1. Deploy your solution (Vercel recommended).
+2. Go to the live site → **Submit**.
+3. Enter team name, contact, problem, and your **public URL**.
+4. Optionally add a GitHub repo link and notes for judges.
+5. Submit, then copy the summary and share with organizers if requested.
+6. Present the live demo (2–3 min).
 
-### Folder structure example
+## What judges look at
 
-```
-solutions/
-└── Code-Warriors/
-    ├── README.md          ← required
-    ├── src/               ← your code
-    ├── screenshots/       ← optional
-    └── demo.md            ← optional notes / links
-```
+- The working live URL
+- Clarity and usefulness for the department
+- Demo quality during the presentation round
 
-### Required README template for every team
+## Optional code archive
 
-```markdown
-# Team Name
-
-**Problem:** [Title from Problem Generator]  
-**Team size:** X  
-**Contact:** email@example.com  
-**Tech stack:** React / Python / etc.
-
-## What we built
-Short description (2–4 sentences).
-
-## How to run
-```bash
-# commands
-```
-
-## Demo / Screenshots
-- Link or images
-
-## Notes for judges
-Anything you want the judges to know.
-```
-
-## Rules
-
-- One folder per team.
-- Keep the folder name clean (letters, numbers, hyphens only).
-- Prefer source code over large zip files. If you must upload a zip, also extract the important files.
-- Submission deadline = end of Build phase (see Schedule).
-
-Judges will review the Pull Requests and the live presentations.
+If you want a permanent code snapshot in this repo after the event, open a PR adding a folder under `solutions/Your-Team-Name/` with a short README and a link to your Vercel deployment. This is optional — the live link is the primary submission.

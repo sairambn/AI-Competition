@@ -1,16 +1,20 @@
 # Contributing / Submitting a Solution
 
-This repository is both the **live event platform** and the **submission destination**.
-
 ## For student teams (event day)
 
-Follow the instructions on the live site → **Submit** page, or the short version below.
+**Submit a public Vercel (or live) deployment link.**
 
-1. Fork → clone → branch named `solution/Your-Team-Name`
-2. Create folder `solutions/Your-Team-Name/`
-3. Add your code + a `README.md` (use the template in `solutions/README.md`)
-4. Push and open a Pull Request titled:  
-   `[Solution] Your-Team-Name — Problem Title`
+1. Build your solution for the assigned problem.
+2. Deploy it (Vercel recommended — free for students).
+3. Open the live site → **Submit** page.
+4. Fill in:
+   - Team name
+   - Contact email
+   - Problem solved
+   - **Vercel / live URL** (required)
+   - Optional: GitHub repo, notes for judges
+5. Click **Submit solution**, then **Copy summary for judges** and share if asked.
+6. Present the live demo in the presentation slot.
 
 That is the official submission.
 
