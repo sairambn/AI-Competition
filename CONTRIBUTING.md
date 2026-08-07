@@ -1,29 +1,26 @@
-# Contributing / Submitting a Solution
+# Contributing
 
-## For student teams (event day)
+## Event day — submit a solution
 
-**Submit a public Vercel (or live) deployment link.**
+1. Get and register your problem on the [live site](https://ai-thon-one.vercel.app/problems).
+2. Build a working demo.
+3. Push code under `solutions/<Team-Name>/` via Pull Request (see README).
+4. Present for 2–3 minutes.
 
-1. Build your solution for the assigned problem.
-2. Deploy it (Vercel recommended — free for students).
-3. Open the live site → **Submit** page.
-4. Fill in:
-   - Team name
-   - Contact email
-   - Problem solved
-   - **Vercel / live URL** (required)
-   - Optional: GitHub repo, notes for judges
-5. Click **Submit solution**, then **Copy summary for judges** and share if asked.
-6. Present the live demo in the presentation slot.
+PR title format:
 
-That is the official submission.
+```text
+[Solution] Team-Name — Problem title
+```
 
-## For future improvements to the platform itself
+Only change files under your team folder. Do not edit `src/` in a solution PR.
 
-PRs that improve the event site (UI, accessibility, new features, docs) are welcome after the event.
+## After the event — improve the platform
 
-- Use a descriptive branch name (`feat/...`, `fix/...`, `docs/...`)
-- Keep changes focused
-- Update README if you change user-facing behaviour
+PRs that improve the site (UI, docs, accessibility) are welcome.
 
-Thank you for building with us.
+- Branch: `feat/...`, `fix/...`, or `docs/...`
+- Keep the change focused
+- Update the README if behaviour changes
+
+Questions: **sairam@jeppiaarcollege.org**
