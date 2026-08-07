@@ -1,10 +1,13 @@
 # AI Problem Solve-a-Thon
 
-**Event conducted by**  
-Department of Artificial Intelligence & Machine Learning  
-**Jeppiaar Engineering College**
+**Department of Artificial Intelligence & Machine Learning**  
+Jeppiaar Engineering College
 
-Live event platform: problem ideas gallery, smart problem assignment by team size, full agenda (what / when / how), and animated UI.
+Event platform for a 2-hour department hackathon: assign problems by team size, register teams, collect solutions on GitHub.
+
+**Live site:** [ai-thon-one.vercel.app](https://ai-thon-one.vercel.app)
+
+---
 
 ## Event
 
@@ -13,48 +16,96 @@ Live event platform: problem ideas gallery, smart problem assignment by team siz
 | **Date** | Friday, 07 August 2026 |
 | **Time** | 10:00 AM – 12:10 PM |
 | **Venue** | Elite Seminar Hall |
-| **Organiser** | Dept. of AI & ML, Jeppiaar Engineering College |
-
-## Agenda (on the site)
+| **Organiser** | Dept. of AI & ML |
 
 | Time | What |
 |------|------|
-| 10:00 | Registration & team check-in |
-| 10:30 | Problem statement release (via this site) |
-| 10:45 | Build phase |
-| 11:40 | Presentations |
-| 12:00 | Winner announcement |
+| 10:00 | Check-in |
+| 10:30 | Get problem + register |
+| 10:45 | Build |
+| 11:40 | Present (2–3 min) |
+| 12:00 | Winners |
 
-## Features
+---
 
-- **12 problem ideas** — Easy → Extreme, filterable gallery
-- **Smart generator** — assigns a problem matched to team size
-- **Full agenda** — every slot explains *what happens* and *how you do it*
-- **Animations** — fade-up, card lift, hero glow, result reveal
-- **Copy problem** — one click for teams
+## For teams (students)
+
+### 1. Get your problem
+Open the [live site → Problems](https://ai-thon-one.vercel.app/problems)
+
+1. Enter **team name**, **size**, **contact email**
+2. Click **Get Problem Statement**
+3. Click **Register (WhatsApp + Email)** so organizers can see you
+
+### 2. Build
+Ship a working demo (any stack). Prefer a public URL (Vercel, Netlify, etc.).
+
+### 3. Submit code to this repo
+
+```bash
+# Fork this repo on GitHub, then:
+git clone https://github.com/<YOUR_USERNAME>/AI-Competition.git
+cd AI-Competition
+git checkout -b solution/<your-team-name>
+
+mkdir -p solutions/<Your-Team-Name>
+# put your code + a short README inside that folder
+
+git add solutions/<Your-Team-Name>
+git commit -m "solution: <Your-Team-Name>"
+git push -u origin solution/<your-team-name>
+```
+
+Open a **Pull Request** titled:
+
+```text
+[Solution] <Your-Team-Name> — <Problem title>
+```
+
+Folder layout:
+
+```text
+solutions/
+  Your-Team-Name/
+    README.md      # what you built, how to run, live URL
+    ...your code
+```
+
+See [solutions/README.md](./solutions/README.md) and [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+---
+
+## For organizers
+
+1. Activate FormSubmit once (link in `sairam@jeppiaarcollege.org` inbox)
+2. Watch **WhatsApp** + **email** when teams register
+3. Review PRs under `solutions/`
+4. Use the site **Organizer** page for links and run-of-show
+
+Optional: set your WhatsApp number in `src/pages/ProblemsPage.tsx`:
+
+```ts
+const WHATSAPP_NUMBER = "91XXXXXXXXXX";
+```
+
+---
 
 ## Stack
 
-React 19 · TypeScript · Vite · Tailwind CSS v4 · React Router  
-Fully client-side — no backend required.
+React · TypeScript · Vite · Tailwind CSS v4 · React Router  
+Deployed on Vercel (SPA). Registration: WhatsApp + FormSubmit email.
 
-## Run
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build & deploy
-
 ```bash
 npm run build
-npx vercel --prod
 ```
-
-Or import this repo at [vercel.com/new](https://vercel.com/new).
 
 ---
 
-**Designed & built by** [Sairam BN](https://bnsairam.vercel.app)  
-Jeppiaar Engineering College — Dept. of AI & ML
+**Built by** [Sairam BN](https://bnsairam.vercel.app) · Dept. of AI & ML · Jeppiaar Engineering College
