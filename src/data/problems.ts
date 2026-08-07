@@ -157,28 +157,41 @@ export function pickDifficulty(teamSize: number): Difficulty {
   return "extreme";
 }
 
-export function getProblemForTeam(teamSize: number): ProblemStatement {
+/** Prefer free problems; skip IDs in `takenIds`. */
+export function getProblemForTeam(
+  teamSize: number,
+  takenIds: Set<string> = new Set()
+): ProblemStatement {
   const difficulty = pickDifficulty(teamSize);
 
-  const matches = PROBLEMS.filter(
-    (p) =>
-      p.active &&
-      p.difficulty === difficulty &&
-      p.min_team_size <= teamSize &&
-      p.max_team_size >= teamSize
+  const pool = (list: ProblemStatement[]) =>
+    list.filter((p) => !takenIds.has(p.id));
+
+  const matches = pool(
+    PROBLEMS.filter(
+      (p) =>
+        p.active &&
+        p.difficulty === difficulty &&
+        p.min_team_size <= teamSize &&
+        p.max_team_size >= teamSize
+    )
   );
 
   if (matches.length > 0) {
     return matches[Math.floor(Math.random() * matches.length)]!;
   }
 
-  const fallback = PROBLEMS.filter(
-    (p) =>
-      p.active && p.min_team_size <= teamSize && p.max_team_size >= teamSize
+  const fallback = pool(
+    PROBLEMS.filter(
+      (p) =>
+        p.active && p.min_team_size <= teamSize && p.max_team_size >= teamSize
+    )
   );
 
   if (fallback.length === 0) {
-    throw new Error("No problem statement found for this team size.");
+    throw new Error(
+      "No free problem left for this team size. Ask the organizer to free a slot or pick another size."
+    );
   }
 
   return fallback[Math.floor(Math.random() * fallback.length)]!;
