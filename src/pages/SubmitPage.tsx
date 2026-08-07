@@ -14,10 +14,8 @@ import {
   Users,
 } from "lucide-react";
 import { PROBLEMS } from "@/data/problems";
+import { ORGANIZER_EMAIL, ORGANIZER_EMAIL_BACKUP } from "@/lib/config";
 import { cn } from "@/lib/utils";
-
-/** Organizer receives every submission by email (FormSubmit → inbox). */
-const ORGANIZER_EMAIL = "sairam@jeppiaarcollege.org";
 
 function normalizeUrl(raw: string) {
   const t = raw.trim();
@@ -46,10 +44,57 @@ type Entry = {
   teamSize: string;
   submittedAt: string;
   emailed: boolean;
+  emailNote?: string;
 };
 
 const inputClass =
   "w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none transition ring-ring placeholder:text-muted-foreground/60 focus:ring-2";
+
+async function postFormSubmit(
+  toEmail: string,
+  payload: Record<string, string>,
+  timeoutMs = 12000
+): Promise<{ ok: boolean; message?: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${toEmail}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        ...payload,
+        _captcha: "false",
+        _template: "table",
+      }),
+    });
+    const data = (await res.json().catch(() => ({}))) as {
+      success?: string | boolean;
+      message?: string;
+    };
+    const success =
+      res.ok &&
+      (data.success === true ||
+        data.success === "true" ||
+        String(data.message || "")
+          .toLowerCase()
+          .includes("sent"));
+    return {
+      ok: success || res.ok,
+      message: data.message,
+    };
+  } catch (e) {
+    return {
+      ok: false,
+      message: e instanceof Error ? e.message : "Network error",
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 export function SubmitPage() {
   const [searchParams] = useSearchParams();
@@ -82,7 +127,10 @@ export function SubmitPage() {
   function validate(): boolean {
     const errs: Record<string, string> = {};
     if (!teamName.trim()) errs.teamName = "Team name is required";
-    if (!contactEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail.trim())) {
+    if (
+      !contactEmail.trim() ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail.trim())
+    ) {
       errs.contactEmail = "Enter a valid email";
     }
     if (!problemId || !selected) errs.problemId = "Select your problem";
@@ -112,42 +160,45 @@ export function SubmitPage() {
     };
 
     setSending(true);
+
+    const formBody = {
+      _subject: `[AI-Thon Solution] ${payload.teamName} — ${payload.problemTitle}`,
+      name: payload.teamName,
+      email: payload.contactEmail,
+      Team: payload.teamName,
+      "Team size": payload.teamSize || "—",
+      Contact: payload.contactEmail,
+      Problem: payload.problemTitle,
+      "Problem ID": payload.problemId,
+      "Vercel / live URL": payload.vercelUrl,
+      "GitHub repo": payload.repoUrl || "—",
+      Notes: payload.notes || "—",
+      Submitted: new Date(payload.submittedAt).toLocaleString(),
+      message: `Solution submission from ${payload.teamName}. Live: ${payload.vercelUrl}`,
+    };
+
+    // Try primary inbox, then backup
     let emailed = false;
-    try {
-      const res = await fetch(`https://formsubmit.co/ajax/${ORGANIZER_EMAIL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          _subject: `[AI-Thon Solution] ${payload.teamName} — ${payload.problemTitle}`,
-          _template: "table",
-          _captcha: "false",
-          Team: payload.teamName,
-          "Team size": payload.teamSize || "—",
-          Contact: payload.contactEmail,
-          Problem: payload.problemTitle,
-          "Vercel / live URL": payload.vercelUrl,
-          "GitHub repo": payload.repoUrl || "—",
-          Notes: payload.notes || "—",
-          Submitted: new Date(payload.submittedAt).toLocaleString(),
-          _replyto: payload.contactEmail,
-        }),
-      });
-      emailed = res.ok;
-      if (!res.ok) {
-        setError(
-          "Email service did not confirm. Your data is still saved below — use Open in Gmail."
-        );
+    let emailNote = "";
+    const primary = await postFormSubmit(ORGANIZER_EMAIL, formBody);
+    if (primary.ok) {
+      emailed = true;
+      emailNote = `Sent to ${ORGANIZER_EMAIL}`;
+    } else {
+      const backup = await postFormSubmit(ORGANIZER_EMAIL_BACKUP, formBody);
+      if (backup.ok) {
+        emailed = true;
+        emailNote = `Sent to backup ${ORGANIZER_EMAIL_BACKUP}`;
+      } else {
+        emailNote =
+          "Email service unavailable — use Open in Gmail / Copy so organizers still get your link.";
+        setError(emailNote);
       }
-    } catch {
-      setError(
-        "Could not reach email service. Your data is saved below — use Open in Gmail."
-      );
     }
 
     payload.emailed = emailed;
+    payload.emailNote = emailNote;
+
     try {
       const existing = JSON.parse(
         localStorage.getItem("ai-thon-submissions") || "[]"
@@ -164,13 +215,28 @@ export function SubmitPage() {
   }
 
   const summaryText = entry
-    ? `AI Problem Solve-a-Thon — Solution\n\nTeam: ${entry.teamName}\nTeam size: ${entry.teamSize || "—"}\nContact: ${entry.contactEmail}\nProblem: ${entry.problemTitle}\nVercel: ${entry.vercelUrl}\nRepo: ${entry.repoUrl || "—"}\nNotes: ${entry.notes || "—"}\nSubmitted: ${new Date(entry.submittedAt).toLocaleString()}`
+    ? `AI Problem Solve-a-Thon — Solution
+
+Team: ${entry.teamName}
+Team size: ${entry.teamSize || "—"}
+Contact: ${entry.contactEmail}
+Problem: ${entry.problemTitle}
+Vercel: ${entry.vercelUrl}
+Repo: ${entry.repoUrl || "—"}
+Notes: ${entry.notes || "—"}
+Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
     : "";
 
   const gmailUrl = entry
     ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
         ORGANIZER_EMAIL
       )}&su=${encodeURIComponent(
+        `[AI-Thon Solution] ${entry.teamName} — ${entry.problemTitle}`
+      )}&body=${encodeURIComponent(summaryText)}`
+    : "#";
+
+  const mailtoUrl = entry
+    ? `mailto:${ORGANIZER_EMAIL}?subject=${encodeURIComponent(
         `[AI-Thon Solution] ${entry.teamName} — ${entry.problemTitle}`
       )}&body=${encodeURIComponent(summaryText)}`
     : "#";
@@ -228,7 +294,7 @@ export function SubmitPage() {
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="animate-result hero-card-glow rounded-2xl border border-primary/40 bg-card p-6 sm:p-8">
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary shadow-[0_0_24px_-4px] shadow-primary/40">
               <CheckCircle2 className="h-8 w-8" />
             </div>
             <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
@@ -236,10 +302,21 @@ export function SubmitPage() {
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
               {entry.emailed
-                ? "Organizer was emailed. Confirm every field below."
-                : "Saved on this device. Use Open in Gmail so the organizer gets your details."}
+                ? entry.emailNote ||
+                  "Organizer was emailed. Confirm every field below."
+                : "Saved on this device. Please also send via Gmail so organizers receive your link."}
             </p>
           </div>
+
+          {!entry.emailed && (
+            <div className="mt-4 flex items-start gap-2 rounded-lg border border-hard/40 bg-hard/10 px-3 py-2.5 text-sm text-foreground">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-hard" />
+              <span>
+                Automatic email did not confirm. Click <strong>Open in Gmail</strong>{" "}
+                (or Mail app) once — required so judges get your Vercel URL.
+              </span>
+            </div>
+          )}
 
           <div className="mt-8 overflow-hidden rounded-xl border border-border">
             <div className="flex items-center justify-between border-b border-border bg-secondary/50 px-4 py-2.5">
@@ -250,11 +327,11 @@ export function SubmitPage() {
                 className={cn(
                   "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase",
                   entry.emailed
-                    ? "bg-easy text-easy-foreground"
-                    : "bg-hard text-hard-foreground"
+                    ? "bg-easy/20 text-easy"
+                    : "bg-hard/20 text-hard"
                 )}
               >
-                {entry.emailed ? "Emailed" : "Local only"}
+                {entry.emailed ? "Emailed" : "Action needed"}
               </span>
             </div>
             <dl className="divide-y divide-border">
@@ -263,7 +340,9 @@ export function SubmitPage() {
                   key={r.label}
                   className="grid gap-1 px-4 py-3 sm:grid-cols-[140px_1fr] sm:gap-4"
                 >
-                  <dt className="text-xs font-medium text-muted-foreground">{r.label}</dt>
+                  <dt className="text-xs font-medium text-muted-foreground">
+                    {r.label}
+                  </dt>
                   <dd className="text-sm text-foreground">{r.value}</dd>
                 </div>
               ))}
@@ -271,22 +350,28 @@ export function SubmitPage() {
           </div>
 
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => void copySummary()}
-              className="btn-shine inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
-            >
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "Copied" : "Copy all data"}
-            </button>
             <a
               href={gmailUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary"
+              className="btn-shine inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
             >
               <Mail className="h-4 w-4" /> Open in Gmail
             </a>
+            <a
+              href={mailtoUrl}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary"
+            >
+              <Mail className="h-4 w-4" /> Mail app
+            </a>
+            <button
+              type="button"
+              onClick={() => void copySummary()}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary"
+            >
+              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              {copied ? "Copied" : "Copy all data"}
+            </button>
             <a
               href={entry.vercelUrl}
               target="_blank"
@@ -346,7 +431,8 @@ export function SubmitPage() {
           Submit your Vercel link
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Public deployment URL + team details. Sent to organizer · shown back to you · optional Gmail backup.
+          Required: team, email, problem, public URL. We email organizers and show
+          your data back for verification.
         </p>
       </div>
 
@@ -360,7 +446,9 @@ export function SubmitPage() {
             )}
           />
         ))}
-        <span className="ml-2 text-xs text-muted-foreground">{filledCount}/4 required</span>
+        <span className="ml-2 text-xs text-muted-foreground">
+          {filledCount}/4 required
+        </span>
       </div>
 
       <form
@@ -382,14 +470,19 @@ export function SubmitPage() {
                 setFieldErrors((f) => ({ ...f, teamName: "" }));
               }}
               placeholder="Code Warriors"
-              className={cn(inputClass, fieldErrors.teamName && "border-destructive ring-destructive/30")}
+              className={cn(
+                inputClass,
+                fieldErrors.teamName && "border-destructive ring-destructive/30"
+              )}
             />
             {fieldErrors.teamName && (
               <p className="text-xs text-destructive">{fieldErrors.teamName}</p>
             )}
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="teamSize" className="text-sm font-medium">Team size</label>
+            <label htmlFor="teamSize" className="text-sm font-medium">
+              Team size
+            </label>
             <input
               id="teamSize"
               type="number"
@@ -417,7 +510,10 @@ export function SubmitPage() {
               setFieldErrors((f) => ({ ...f, contactEmail: "" }));
             }}
             placeholder="team@college.edu"
-            className={cn(inputClass, fieldErrors.contactEmail && "border-destructive")}
+            className={cn(
+              inputClass,
+              fieldErrors.contactEmail && "border-destructive"
+            )}
           />
           {fieldErrors.contactEmail && (
             <p className="text-xs text-destructive">{fieldErrors.contactEmail}</p>
@@ -482,7 +578,8 @@ export function SubmitPage() {
             <p className="text-xs text-destructive">{fieldErrors.vercelUrl}</p>
           ) : (
             <p className="text-xs text-muted-foreground">
-              Public link only. <code className="text-[10px]">https://</code> added automatically if missing.
+              Must be public. <code className="text-[10px]">https://</code> is added if
+              missing.
             </p>
           )}
           {livePreview && (
@@ -499,7 +596,9 @@ export function SubmitPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="repoUrl" className="text-sm font-medium">GitHub / code repo (optional)</label>
+          <label htmlFor="repoUrl" className="text-sm font-medium">
+            GitHub / code repo (optional)
+          </label>
           <input
             id="repoUrl"
             type="url"
@@ -517,7 +616,9 @@ export function SubmitPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="notes" className="text-sm font-medium">Notes for judges (optional)</label>
+          <label htmlFor="notes" className="text-sm font-medium">
+            Notes for judges (optional)
+          </label>
           <textarea
             id="notes"
             value={notes}
@@ -543,7 +644,7 @@ export function SubmitPage() {
           >
             {sending ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+                <Loader2 className="h-4 w-4 animate-spin" /> Submitting…
               </>
             ) : (
               <>
@@ -551,7 +652,10 @@ export function SubmitPage() {
               </>
             )}
           </button>
-          <Link to="/problems" className="text-sm text-muted-foreground hover:text-foreground">
+          <Link
+            to="/problems"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
             Need a problem first?
           </Link>
         </div>
@@ -559,21 +663,19 @@ export function SubmitPage() {
 
       <div className="mt-10 grid gap-3 sm:grid-cols-3">
         {[
-          { t: "Email to organizer", d: "Table format in inbox" },
-          { t: "Shown on screen", d: "Verify every field" },
-          { t: "Gmail backup", d: "One-click compose" },
+          { t: "1. Validate", d: "All required fields checked" },
+          { t: "2. Deliver", d: "Email + on-screen record" },
+          { t: "3. Backup", d: "Gmail / copy if needed" },
         ].map((x) => (
-          <div key={x.t} className="rounded-xl border border-border bg-parchment px-4 py-3 text-center">
+          <div
+            key={x.t}
+            className="rounded-xl border border-border bg-parchment px-4 py-3 text-center"
+          >
             <p className="text-xs font-semibold text-foreground">{x.t}</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground">{x.d}</p>
           </div>
         ))}
       </div>
-
-      <p className="mt-8 text-center text-xs text-muted-foreground">
-        Optional: also push code under{" "}
-        <code className="text-[10px]">solutions/Your-Team/</code> via Pull Request — see README.
-      </p>
     </div>
   );
 }
