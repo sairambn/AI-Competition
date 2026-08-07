@@ -34,35 +34,56 @@
   --color-extreme-foreground: var(--extreme-foreground);
 }
 
+/* ── Neon Noir ───────────────────────────────────────────
+   Deep black base · electric cyan primary · magenta accent
+   Soft neon glows · high contrast text
+──────────────────────────────────────────────────────── */
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.975 0.012 95);
-  --foreground: oklch(0.22 0.04 150);
-  --card: oklch(0.99 0.008 95);
-  --card-foreground: oklch(0.22 0.04 150);
-  --primary: oklch(0.30 0.055 150);
-  --primary-foreground: oklch(0.97 0.01 95);
-  --secondary: oklch(0.94 0.018 95);
-  --secondary-foreground: oklch(0.28 0.05 150);
-  --muted: oklch(0.93 0.015 95);
-  --muted-foreground: oklch(0.48 0.03 150);
-  --accent: oklch(0.82 0.12 85);
-  --accent-foreground: oklch(0.25 0.04 150);
-  --destructive: oklch(0.55 0.20 25);
-  --border: oklch(0.88 0.025 95);
-  --input: oklch(0.92 0.018 95);
-  --ring: oklch(0.72 0.12 85);
-  --gold: oklch(0.72 0.13 85);
-  --olive: oklch(0.38 0.05 150);
-  --parchment: oklch(0.955 0.018 95);
-  --easy: oklch(0.88 0.10 150);
-  --easy-foreground: oklch(0.28 0.05 150);
-  --medium: oklch(0.82 0.10 240);
-  --medium-foreground: oklch(0.25 0.04 240);
-  --hard: oklch(0.80 0.12 60);
-  --hard-foreground: oklch(0.30 0.06 60);
-  --extreme: oklch(0.62 0.18 25);
-  --extreme-foreground: oklch(0.98 0.005 95);
+
+  /* Surfaces */
+  --background: oklch(0.12 0.02 280);
+  --foreground: oklch(0.95 0.01 210);
+
+  --card: oklch(0.16 0.025 280);
+  --card-foreground: oklch(0.95 0.01 210);
+
+  /* Brand */
+  --primary: oklch(0.78 0.18 195);
+  --primary-foreground: oklch(0.12 0.03 280);
+
+  --secondary: oklch(0.22 0.04 280);
+  --secondary-foreground: oklch(0.88 0.04 210);
+
+  --muted: oklch(0.20 0.03 280);
+  --muted-foreground: oklch(0.65 0.04 250);
+
+  --accent: oklch(0.72 0.22 330);
+  --accent-foreground: oklch(0.12 0.03 280);
+
+  --destructive: oklch(0.62 0.22 25);
+
+  --border: oklch(0.28 0.05 280);
+  --input: oklch(0.18 0.03 280);
+  --ring: oklch(0.78 0.18 195);
+
+  /* Legacy token names → neon equivalents */
+  --gold: oklch(0.82 0.16 195);
+  --olive: oklch(0.72 0.14 320);
+  --parchment: oklch(0.18 0.04 280);
+
+  /* Difficulty badges — neon chips */
+  --easy: oklch(0.72 0.17 155);
+  --easy-foreground: oklch(0.14 0.04 155);
+
+  --medium: oklch(0.72 0.16 230);
+  --medium-foreground: oklch(0.14 0.04 230);
+
+  --hard: oklch(0.78 0.16 85);
+  --hard-foreground: oklch(0.16 0.05 85);
+
+  --extreme: oklch(0.68 0.24 25);
+  --extreme-foreground: oklch(0.98 0.01 25);
 }
 
 @layer base {
@@ -77,6 +98,10 @@
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     letter-spacing: -0.025em;
+  }
+  ::selection {
+    background: oklch(0.78 0.18 195 / 0.35);
+    color: oklch(0.98 0.01 210);
   }
 }
 
@@ -103,6 +128,10 @@
   0% { opacity: 0; transform: translateY(20px) scale(0.96); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
+@keyframes neon-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
 
 .animate-fade-up { animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-scale-in { animation: scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
@@ -111,25 +140,39 @@
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 
+/* Hero — cyan + magenta dual glow */
 .hero-glow {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, oklch(0.72 0.13 85 / 0.18), transparent 70%);
+  background:
+    radial-gradient(ellipse 70% 55% at 30% 0%, oklch(0.78 0.18 195 / 0.22), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 80% 10%, oklch(0.72 0.22 330 / 0.14), transparent 60%);
 }
+
+/* Card highlight — cyan neon rim */
 .hero-card-glow {
-  box-shadow: 0 0 0 1px oklch(0.72 0.13 85 / 0.25), 0 20px 50px -20px oklch(0.30 0.055 150 / 0.35);
+  box-shadow:
+    0 0 0 1px oklch(0.78 0.18 195 / 0.35),
+    0 0 40px -8px oklch(0.78 0.18 195 / 0.35),
+    0 24px 50px -20px oklch(0.10 0.04 280 / 0.8);
 }
+
 .card-lift {
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .card-lift:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 28px -8px oklch(0.30 0.055 150 / 0.2), 0 0 0 1px oklch(0.72 0.13 85 / 0.35);
+  box-shadow:
+    0 0 0 1px oklch(0.78 0.18 195 / 0.45),
+    0 0 28px -6px oklch(0.78 0.18 195 / 0.35),
+    0 16px 32px -12px oklch(0.10 0.04 280 / 0.7);
+  border-color: oklch(0.78 0.18 195 / 0.4);
 }
+
 .btn-shine { position: relative; overflow: hidden; }
 .btn-shine::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, oklch(1 0 0 / 0.18) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 40%, oklch(1 0 0 / 0.2) 50%, transparent 60%);
   background-size: 200% 100%;
   transition: background-position 0.5s ease;
 }
