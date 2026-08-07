@@ -2,6 +2,7 @@
   "name": "ai-competition",
   "private": true,
   "version": "1.0.0",
+  "description": "AI Problem Solve-a-Thon — event platform for Jeppiaar Engineering College, Dept. of AI & ML",
   "type": "module",
   "scripts": {
     "dev": "vite",
