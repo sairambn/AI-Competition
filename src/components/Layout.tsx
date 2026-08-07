@@ -35,10 +35,13 @@ export function Layout() {
               </span>
             </div>
           </Link>
-          <nav className="flex items-center gap-5 sm:gap-7">
+          <nav className="flex flex-wrap items-center justify-end gap-3 sm:gap-5">
             {navLink("/", "Home")}
-            {navLink("/problems", "Problem Generator")}
+            {navLink("/problems", "Problems")}
             {navLink("/schedule", "Schedule")}
+            {navLink("/submit", "Submit")}
+            {navLink("/submissions", "Entries")}
+            {navLink("/organizer", "Organizer")}
           </nav>
         </div>
       </header>
