@@ -17,7 +17,7 @@ import { PROBLEMS } from "@/data/problems";
 import { cn } from "@/lib/utils";
 
 /** Organizer receives every submission by email (FormSubmit → inbox). */
-const ORGANIZER_EMAIL = "bnsairam14@gmail.com";
+const ORGANIZER_EMAIL = "sairam@jeppiaarcollege.org";
 
 function normalizeUrl(raw: string) {
   const t = raw.trim();
@@ -123,6 +123,7 @@ export function SubmitPage() {
         body: JSON.stringify({
           _subject: `[AI-Thon Solution] ${payload.teamName} — ${payload.problemTitle}`,
           _template: "table",
+          _captcha: "false",
           Team: payload.teamName,
           "Team size": payload.teamSize || "—",
           Contact: payload.contactEmail,
@@ -131,6 +132,7 @@ export function SubmitPage() {
           "GitHub repo": payload.repoUrl || "—",
           Notes: payload.notes || "—",
           Submitted: new Date(payload.submittedAt).toLocaleString(),
+          _replyto: payload.contactEmail,
         }),
       });
       emailed = res.ok;
@@ -162,16 +164,7 @@ export function SubmitPage() {
   }
 
   const summaryText = entry
-    ? `AI Problem Solve-a-Thon — Solution
-
-Team: ${entry.teamName}
-Team size: ${entry.teamSize || "—"}
-Contact: ${entry.contactEmail}
-Problem: ${entry.problemTitle}
-Vercel: ${entry.vercelUrl}
-Repo: ${entry.repoUrl || "—"}
-Notes: ${entry.notes || "—"}
-Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
+    ? `AI Problem Solve-a-Thon — Solution\n\nTeam: ${entry.teamName}\nTeam size: ${entry.teamSize || "—"}\nContact: ${entry.contactEmail}\nProblem: ${entry.problemTitle}\nVercel: ${entry.vercelUrl}\nRepo: ${entry.repoUrl || "—"}\nNotes: ${entry.notes || "—"}\nSubmitted: ${new Date(entry.submittedAt).toLocaleString()}`
     : "";
 
   const gmailUrl = entry
@@ -189,7 +182,6 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ── Success ─────────────────────────────────────────────────────────────
   if (entry) {
     const rows: { label: string; value: React.ReactNode }[] = [
       { label: "Team name", value: entry.teamName },
@@ -236,7 +228,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="animate-result hero-card-glow rounded-2xl border border-primary/40 bg-card p-6 sm:p-8">
           <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary shadow-[0_0_24px_-4px] shadow-primary/40">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
               <CheckCircle2 className="h-8 w-8" />
             </div>
             <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
@@ -244,7 +236,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
               {entry.emailed
-                ? "Organizer was emailed. Confirm every field below — this is what was submitted."
+                ? "Organizer was emailed. Confirm every field below."
                 : "Saved on this device. Use Open in Gmail so the organizer gets your details."}
             </p>
           </div>
@@ -258,8 +250,8 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
                 className={cn(
                   "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase",
                   entry.emailed
-                    ? "bg-easy/20 text-easy"
-                    : "bg-hard/20 text-hard"
+                    ? "bg-easy text-easy-foreground"
+                    : "bg-hard text-hard-foreground"
                 )}
               >
                 {entry.emailed ? "Emailed" : "Local only"}
@@ -271,9 +263,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
                   key={r.label}
                   className="grid gap-1 px-4 py-3 sm:grid-cols-[140px_1fr] sm:gap-4"
                 >
-                  <dt className="text-xs font-medium text-muted-foreground">
-                    {r.label}
-                  </dt>
+                  <dt className="text-xs font-medium text-muted-foreground">{r.label}</dt>
                   <dd className="text-sm text-foreground">{r.value}</dd>
                 </div>
               ))}
@@ -346,7 +336,6 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
     );
   }
 
-  // ── Form ────────────────────────────────────────────────────────────────
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8 animate-fade-up text-center">
@@ -357,12 +346,10 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
           Submit your Vercel link
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Public deployment URL + team details. Sent to organizer · shown back to
-          you · optional Gmail backup.
+          Public deployment URL + team details. Sent to organizer · shown back to you · optional Gmail backup.
         </p>
       </div>
 
-      {/* Progress */}
       <div className="mb-6 flex items-center justify-center gap-2">
         {[1, 2, 3, 4].map((i) => (
           <div
@@ -373,9 +360,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
             )}
           />
         ))}
-        <span className="ml-2 text-xs text-muted-foreground">
-          {filledCount}/4 required
-        </span>
+        <span className="ml-2 text-xs text-muted-foreground">{filledCount}/4 required</span>
       </div>
 
       <form
@@ -404,9 +389,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
             )}
           </div>
           <div className="space-y-1.5">
-            <label htmlFor="teamSize" className="text-sm font-medium">
-              Team size
-            </label>
+            <label htmlFor="teamSize" className="text-sm font-medium">Team size</label>
             <input
               id="teamSize"
               type="number"
@@ -499,8 +482,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
             <p className="text-xs text-destructive">{fieldErrors.vercelUrl}</p>
           ) : (
             <p className="text-xs text-muted-foreground">
-              Public link only. <code className="text-[10px]">https://</code> added
-              automatically if missing.
+              Public link only. <code className="text-[10px]">https://</code> added automatically if missing.
             </p>
           )}
           {livePreview && (
@@ -517,9 +499,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="repoUrl" className="text-sm font-medium">
-            GitHub / code repo (optional)
-          </label>
+          <label htmlFor="repoUrl" className="text-sm font-medium">GitHub / code repo (optional)</label>
           <input
             id="repoUrl"
             type="url"
@@ -537,9 +517,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="notes" className="text-sm font-medium">
-            Notes for judges (optional)
-          </label>
+          <label htmlFor="notes" className="text-sm font-medium">Notes for judges (optional)</label>
           <textarea
             id="notes"
             value={notes}
@@ -573,10 +551,7 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
               </>
             )}
           </button>
-          <Link
-            to="/problems"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
+          <Link to="/problems" className="text-sm text-muted-foreground hover:text-foreground">
             Need a problem first?
           </Link>
         </div>
@@ -588,15 +563,17 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
           { t: "Shown on screen", d: "Verify every field" },
           { t: "Gmail backup", d: "One-click compose" },
         ].map((x) => (
-          <div
-            key={x.t}
-            className="rounded-xl border border-border bg-parchment px-4 py-3 text-center"
-          >
+          <div key={x.t} className="rounded-xl border border-border bg-parchment px-4 py-3 text-center">
             <p className="text-xs font-semibold text-foreground">{x.t}</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground">{x.d}</p>
           </div>
         ))}
       </div>
+
+      <p className="mt-8 text-center text-xs text-muted-foreground">
+        Optional: also push code under{" "}
+        <code className="text-[10px]">solutions/Your-Team/</code> via Pull Request — see README.
+      </p>
     </div>
   );
 }
