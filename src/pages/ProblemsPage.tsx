@@ -12,6 +12,7 @@ import {
   Loader2,
   Mail,
   Lock,
+  ClipboardList,
 } from "lucide-react";
 import {
   PROBLEMS,
@@ -132,6 +133,23 @@ export function ProblemsPage() {
 
   const takenIds = useMemo(() => new Set(Object.keys(taken)), [taken]);
 
+  /** Sorted list: which team took which problem */
+  const assignmentBoard = useMemo(() => {
+    return Object.entries(taken)
+      .map(([problemId, info]) => {
+        const problem = PROBLEMS.find((p) => p.id === problemId);
+        return {
+          problemId,
+          teamName: info.teamName,
+          at: info.at,
+          title: problem?.title ?? `Problem #${problemId}`,
+          difficulty: problem?.difficulty,
+          category: problem?.category ?? "",
+        };
+      })
+      .sort((a, b) => a.teamName.localeCompare(b.teamName));
+  }, [taken]);
+
   const ideas =
     filter === "all"
       ? PROBLEMS.filter((p) => p.active)
@@ -193,7 +211,6 @@ export function ProblemsPage() {
     }
   };
 
-  /** Click a free card → claim that problem for this team */
   const claimProblem = (problem: ProblemStatement) => {
     setClaimHint(null);
     setError(null);
@@ -222,7 +239,6 @@ export function ProblemsPage() {
       return;
     }
 
-    // Soft size guidance (still allow claim)
     setResult({
       problem,
       teamSize: size,
@@ -277,7 +293,6 @@ export function ProblemsPage() {
       markTaken(result.problem.id, result.teamName);
       setRegistered(true);
     } catch (err) {
-      // Still mark taken locally so the board shows Taken
       markTaken(result.problem.id, result.teamName);
       setRegistered(true);
       setRegisterError(
@@ -301,12 +316,85 @@ export function ProblemsPage() {
         </h1>
         <p className="mt-2 text-muted-foreground">
           Fill team details, then get a free problem — or <strong>click a card</strong> to
-          claim it. Taken problems stay locked.
+          claim it. See which team took which problem below.
         </p>
         <p className="mt-2 text-xs text-muted-foreground">
           {freeCount} free · {takenIds.size} taken
         </p>
       </div>
+
+      {/* Team → Problem board */}
+      <section className="mb-10">
+        <div className="rounded-xl border border-border bg-card shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+              <ClipboardList className="h-5 w-5 text-gold" />
+              Team assignments
+            </h2>
+            <span className="text-xs text-muted-foreground">
+              Who took which problem
+            </span>
+          </div>
+          {assignmentBoard.length === 0 ? (
+            <p className="px-5 py-8 text-center text-sm text-muted-foreground">
+              No teams registered yet. After a team clicks{" "}
+              <strong>Register &amp; mark Taken</strong>, they appear here.
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-secondary/40 text-xs uppercase tracking-wide text-muted-foreground">
+                    <th className="px-5 py-3 font-semibold">#</th>
+                    <th className="px-5 py-3 font-semibold">Team</th>
+                    <th className="px-5 py-3 font-semibold">Problem statement</th>
+                    <th className="px-5 py-3 font-semibold">Difficulty</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {assignmentBoard.map((row, i) => (
+                    <tr
+                      key={row.problemId}
+                      className="border-b border-border/70 last:border-0"
+                    >
+                      <td className="px-5 py-3 font-mono text-xs text-muted-foreground">
+                        {i + 1}
+                      </td>
+                      <td className="px-5 py-3">
+                        <span className="font-semibold text-foreground">
+                          {row.teamName}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3">
+                        <span className="text-foreground">{row.title}</span>
+                        {row.category && (
+                          <span className="mt-0.5 block text-xs text-muted-foreground">
+                            {row.category}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3">
+                        {row.difficulty ? (
+                          <span
+                            className={cn(
+                              "rounded-full px-2.5 py-0.5 text-xs font-semibold",
+                              difficultyClass(row.difficulty)
+                            )}
+                          >
+                            {formatDifficulty(row.difficulty)}
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="mb-14">
         <div className="animate-fade-up rounded-xl border border-border bg-card shadow-sm">
@@ -402,7 +490,7 @@ export function ProblemsPage() {
                 </span>
                 {(registered || takenIds.has(result.problem.id)) && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-destructive/20 px-2.5 py-0.5 text-xs font-bold text-destructive">
-                    <Lock className="h-3 w-3" /> Taken
+                    <Lock className="h-3 w-3" /> Taken by {result.teamName}
                   </span>
                 )}
               </div>
@@ -417,8 +505,9 @@ export function ProblemsPage() {
                 <div className="mt-6 flex items-start gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 text-sm">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <span>
-                    Registered &amp; marked <strong>Taken</strong>. Other teams will
-                    see this problem as locked.
+                    <strong>{result.teamName}</strong> is registered for{" "}
+                    <strong>{result.problem.title}</strong>. Shown on the Team
+                    assignments board.
                   </span>
                 </div>
               ) : (
@@ -484,8 +573,8 @@ export function ProblemsPage() {
 
               {!registered && (
                 <p className="mt-3 text-xs text-muted-foreground">
-                  <strong>Register &amp; mark Taken</strong> locks this problem for other
-                  teams on this browser and emails the organizer.
+                  Register locks this problem under your team name on the assignments
+                  board and emails the organizer.
                 </p>
               )}
             </div>
@@ -517,9 +606,8 @@ export function ProblemsPage() {
           </div>
         </div>
         <p className="mb-4 text-sm text-muted-foreground">
-          Click a <strong>free</strong> card to select it for your team. Grey cards with{" "}
-          <span className="font-semibold text-destructive">Taken</span> are already
-          claimed.
+          Click a <strong>free</strong> card to select it. Taken cards show the{" "}
+          <strong>team name</strong> that claimed them.
         </p>
         <div className="stagger grid gap-4 sm:grid-cols-2">
           {ideas.map((idea) => {
@@ -540,7 +628,7 @@ export function ProblemsPage() {
                 className={cn(
                   "rounded-xl border p-5 shadow-sm transition",
                   isTaken
-                    ? "cursor-not-allowed border-border/60 bg-muted/40 opacity-70"
+                    ? "cursor-not-allowed border-border/60 bg-muted/40 opacity-80"
                     : "card-lift cursor-pointer border-border bg-card hover:border-primary/50"
                 )}
               >
@@ -559,7 +647,6 @@ export function ProblemsPage() {
                   {isTaken ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-destructive/20 px-2.5 py-0.5 text-xs font-bold text-destructive">
                       <Lock className="h-3 w-3" /> Taken
-                      {claim?.teamName ? ` · ${claim.teamName}` : ""}
                     </span>
                   ) : (
                     <span className="rounded-full bg-easy/20 px-2.5 py-0.5 text-xs font-bold text-easy">
@@ -575,6 +662,16 @@ export function ProblemsPage() {
                 >
                   {idea.title}
                 </h3>
+                {isTaken && claim?.teamName && (
+                  <p className="mt-2 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-destructive">
+                      Claimed by
+                    </span>
+                    <span className="mt-0.5 block font-bold text-foreground">
+                      {claim.teamName}
+                    </span>
+                  </p>
+                )}
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {idea.description}
                 </p>
