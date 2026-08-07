@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Calendar,
   Clock,
@@ -10,6 +11,8 @@ import {
   Laptop,
   Presentation,
   CheckCircle2,
+  Rocket,
+  ArrowRight,
 } from "lucide-react";
 
 const agenda = [
@@ -25,31 +28,39 @@ const agenda = [
     time: "10:30 AM",
     end: "10:40 AM",
     label: "Problem Statement Release",
-    what: "Each team receives a software problem matched to team size.",
-    how: "Open this website → Problem Generator → enter team size → get your problem. Copy it for your team.",
+    what: "Each team receives a software problem matched to team size — all useful for the AI & ML department.",
+    how: "Open this site → Problems → enter team name & size → Get problem → Copy / Register assignment.",
     icon: Lightbulb,
   },
   {
     time: "10:45 AM",
-    end: "11:40 AM",
-    label: "Build Phase",
-    what: "Design and build a working software solution for the assigned problem.",
-    how: "Work in your team. Use any stack. Focus on a clear demo, not perfect production code.",
+    end: "11:35 AM",
+    label: "Build & Deploy",
+    what: "Design and build a working solution, then deploy a public demo (Vercel recommended).",
+    how: "Any stack is fine. Aim for a clear live URL, not perfect production code.",
     icon: Laptop,
+  },
+  {
+    time: "11:35 AM",
+    end: "11:40 AM",
+    label: "Submit Vercel link",
+    what: "Official submission: public deployment URL + team details.",
+    how: "Open Submit → fill form → Submit solution. Data is emailed to organizers and shown on screen.",
+    icon: Rocket,
   },
   {
     time: "11:40 AM",
     end: "11:55 AM",
     label: "Presentation Window",
-    what: "Teams present their solution to judges.",
-    how: "2–3 minutes per team. Show what you built and how it solves the problem.",
+    what: "Teams present their live solution to judges.",
+    how: "2–3 minutes per team. Open the live URL and walk through how it helps the department.",
     icon: Presentation,
   },
   {
     time: "12:00 PM",
     end: "12:10 PM",
     label: "Winner Announcement",
-    what: "Best solution in the shortest effective time wins.",
+    what: "Best solution for the department, presented clearly, wins.",
     how: "Judges score clarity, usefulness, and demo quality. Winners announced on stage.",
     icon: Trophy,
   },
@@ -59,22 +70,22 @@ const categories = [
   {
     icon: Code,
     label: "Department Operations",
-    examples: "Attendance tracking, notice boards, lab bookings",
+    examples: "Attendance, lab booking, IAT dropbox, notices",
   },
   {
     icon: Users,
     label: "Academic Workflow",
-    examples: "Assignment portals, mentor matching, project showcases",
+    examples: "Mentoring, project showcase, research archive",
   },
   {
     icon: Lightbulb,
     label: "AI & Support",
-    examples: "Helpdesk chatbots, proctoring systems, predictive planners",
+    examples: "FAQ chatbot, exam toolkit, timetable helper",
   },
   {
     icon: Trophy,
-    label: "Extreme Systems",
-    examples: "Research collaboration networks, resource forecasting",
+    label: "Planning & Collaboration",
+    examples: "Research connector, lab demand predictor",
   },
 ];
 
@@ -89,7 +100,7 @@ export function SchedulePage() {
           Agenda & Rules
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Exactly what happens, when it happens, and how you take part
+          What happens, when, and exactly how you take part
         </p>
       </div>
 
@@ -113,7 +124,7 @@ export function SchedulePage() {
       <div className="mb-14">
         <h2 className="mb-2 text-2xl font-bold text-foreground">Minute-by-minute agenda</h2>
         <p className="mb-6 text-sm text-muted-foreground">
-          Follow this order on event day. Every team uses the same flow.
+          Same flow for every team. Deploy early so you can submit and present calmly.
         </p>
         <div className="relative space-y-5 pl-8 before:absolute before:left-3 before:top-2 before:h-[calc(100%-1rem)] before:w-px before:bg-border">
           {agenda.map((item, index) => (
@@ -131,11 +142,15 @@ export function SchedulePage() {
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-lg bg-parchment/80 p-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">What happens</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">
+                      What happens
+                    </p>
                     <p className="mt-1 text-sm text-foreground">{item.what}</p>
                   </div>
                   <div className="rounded-lg bg-parchment/80 p-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">How you do it</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">
+                      How you do it
+                    </p>
                     <p className="mt-1 text-sm text-foreground">{item.how}</p>
                   </div>
                 </div>
@@ -148,38 +163,73 @@ export function SchedulePage() {
       <div className="mb-14 rounded-xl border border-gold/30 bg-parchment p-6">
         <h2 className="flex items-center gap-2 text-xl font-bold text-foreground">
           <CheckCircle2 className="h-5 w-5 text-gold" />
-          Your path in 4 steps
+          Your path in 5 steps
         </h2>
         <ol className="mt-4 space-y-3 text-sm text-foreground">
           <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span>
-            <span><strong>Form a team</strong> (default 5 members; 9+ get extreme problems).</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              1
+            </span>
+            <span>
+              <strong>Form a team</strong> (size drives difficulty).
+            </span>
           </li>
           <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span>
-            <span><strong>At 10:30 AM</strong> open Problem Generator, enter team size, get your problem, copy it.</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              2
+            </span>
+            <span>
+              <strong>At 10:30</strong> get your department problem and register assignment.
+            </span>
           </li>
           <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span>
-            <span><strong>Build until 11:40 AM</strong> — a working demo that solves the assigned problem.</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              3
+            </span>
+            <span>
+              <strong>Build & deploy</strong> a public demo (Vercel preferred).
+            </span>
           </li>
           <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">4</span>
-            <span><strong>Present by 11:55 AM</strong> — short demo; winners announced at 12:00 PM.</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              4
+            </span>
+            <span>
+              <strong>Submit</strong> the live URL on the Submit page.
+            </span>
+          </li>
+          <li className="flex gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              5
+            </span>
+            <span>
+              <strong>Present</strong> 2–3 min; winners at 12:00.
+            </span>
           </li>
         </ol>
+        <Link
+          to="/submit"
+          className="btn-shine mt-5 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          Go to Submit <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
 
       <div>
         <h2 className="mb-6 text-2xl font-bold text-foreground">Problem categories</h2>
         <div className="stagger grid gap-5 sm:grid-cols-2">
           {categories.map((category) => (
-            <div key={category.label} className="card-lift rounded-xl border border-border bg-card p-5 shadow-sm">
+            <div
+              key={category.label}
+              className="card-lift rounded-xl border border-border bg-card p-5 shadow-sm"
+            >
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-foreground">
                   <category.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">{category.label}</h3>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {category.label}
+                </h3>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">{category.examples}</p>
             </div>
@@ -190,11 +240,16 @@ export function SchedulePage() {
       <div className="mt-12 rounded-xl border border-border bg-parchment p-6">
         <h2 className="text-xl font-bold text-foreground">Rules</h2>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-          <li>Each team receives one problem based on registered team size (Easy → Extreme).</li>
-          <li>Default team size is 5. Teams of 9 or more get extreme-level problems.</li>
-          <li>Solutions must be software-based and address the assigned department problem.</li>
-          <li>Judging: clarity of solution, usefulness for the department, quality of demo.</li>
-          <li>Best solution delivered and presented on time wins.</li>
+          <li>
+            One problem per team, matched to team size (Easy → Extreme), all aimed at
+            real department needs.
+          </li>
+          <li>
+            Official submission is a <strong>public live URL</strong> via the Submit
+            page (Vercel recommended).
+          </li>
+          <li>Judging: clarity · usefulness for the department · demo quality.</li>
+          <li>Best solution presented on time wins.</li>
         </ul>
       </div>
     </div>

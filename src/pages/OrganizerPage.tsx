@@ -1,5 +1,7 @@
-import { ExternalLink, Users, ListChecks, GitPullRequest, AlertCircle } from "lucide-react";
+import { ExternalLink, Mail, ListChecks, Rocket, AlertCircle, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
+const ORGANIZER_EMAIL = "bnsairam14@gmail.com";
 const REPO = "https://github.com/sairambn/AI-Competition";
 
 export function OrganizerPage() {
@@ -10,88 +12,109 @@ export function OrganizerPage() {
           Organizer only
         </span>
         <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
-          Team Assignments
+          Run the event
         </h1>
         <p className="mt-2 text-muted-foreground">
-          See every team and the problem they were assigned.
+          Assignments, submissions, and judging in one place.
         </p>
       </div>
 
-      {/* Primary action */}
-      <a
-        href={`${REPO}/issues?q=is%3Aissue+[Assignment]`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="card-lift mb-6 flex items-center gap-4 rounded-xl border border-gold/40 bg-parchment p-6 shadow-sm transition hover:border-gold"
-      >
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <ListChecks className="h-7 w-7" />
-        </div>
-        <div className="flex-1">
-          <h2 className="text-lg font-bold text-foreground">View all registered teams</h2>
-          <p className="text-sm text-muted-foreground">
-            Opens GitHub Issues filtered by <code className="text-xs">[Assignment]</code>
-          </p>
-        </div>
-        <ExternalLink className="h-5 w-5 text-muted-foreground" />
-      </a>
-
       <div className="space-y-4">
         <a
-          href={`${REPO}/pulls?q=is%3Apr+[Solution]`}
+          href={`mailto:${ORGANIZER_EMAIL}`}
+          className="card-lift flex items-center gap-4 rounded-xl border border-gold/40 bg-parchment p-6 shadow-sm transition hover:border-gold"
+        >
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <Mail className="h-7 w-7" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-foreground">Solution emails</h2>
+            <p className="text-sm text-muted-foreground">
+              Inbox: <strong>{ORGANIZER_EMAIL}</strong> — subject starts with{" "}
+              <code className="text-xs">[AI-Thon Solution]</code>
+            </p>
+          </div>
+          <ExternalLink className="h-5 w-5 text-muted-foreground" />
+        </a>
+
+        <a
+          href={`${REPO}/issues?q=is%3Aissue+[Assignment]`}
           target="_blank"
           rel="noopener noreferrer"
           className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
         >
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <GitPullRequest className="h-6 w-6" />
+            <ListChecks className="h-6 w-6" />
           </div>
           <div className="flex-1">
-            <h2 className="font-semibold text-foreground">Solution Pull Requests</h2>
-            <p className="text-sm text-muted-foreground">Code submitted by teams</p>
+            <h2 className="font-semibold text-foreground">Registered team assignments</h2>
+            <p className="text-sm text-muted-foreground">
+              GitHub Issues with <code className="text-xs">[Assignment]</code>
+            </p>
           </div>
           <ExternalLink className="h-4 w-4 text-muted-foreground" />
         </a>
 
+        <Link
+          to="/submit"
+          className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/30 text-accent-foreground">
+            <Rocket className="h-6 w-6" />
+          </div>
+          <div className="flex-1">
+            <h2 className="font-semibold text-foreground">Team submit page</h2>
+            <p className="text-sm text-muted-foreground">
+              Where teams paste Vercel links
+            </p>
+          </div>
+        </Link>
+
         <a
-          href={`${REPO}/tree/main/solutions`}
+          href={`${REPO}`}
           target="_blank"
           rel="noopener noreferrer"
           className="card-lift flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:border-primary/40"
         >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/30 text-accent-foreground">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground">
             <Users className="h-6 w-6" />
           </div>
           <div className="flex-1">
-            <h2 className="font-semibold text-foreground">solutions/ folder</h2>
-            <p className="text-sm text-muted-foreground">Merged team folders</p>
+            <h2 className="font-semibold text-foreground">Event repository</h2>
+            <p className="text-sm text-muted-foreground">Code, docs, optional code archives</p>
           </div>
           <ExternalLink className="h-4 w-4 text-muted-foreground" />
         </a>
       </div>
 
-      {/* How it works */}
       <div className="mt-10 rounded-xl border border-border bg-card p-6 text-sm">
         <h3 className="flex items-center gap-2 font-semibold text-foreground">
           <AlertCircle className="h-4 w-4 text-gold" />
-          How this works
+          Event-day checklist
         </h3>
         <ol className="mt-4 list-decimal space-y-3 pl-5 text-muted-foreground">
           <li>
-            Team enters <strong>name + size</strong> and gets a problem.
+            <strong>10:30</strong> — Teams open Problems → get assignment → Register on
+            GitHub Issues.
           </li>
           <li>
-            They click <strong>Register Assignment</strong> → a GitHub Issue opens with their team name and problem already filled.
+            <strong>Build</strong> — Teams deploy to Vercel (or any public URL).
           </li>
           <li>
-            They click <strong>Create</strong> on GitHub.
+            <strong>Submit</strong> — Teams use /submit; you receive table emails.
           </li>
           <li>
-            You open the link above and see every team + assigned problem in one list.
+            <strong>Present</strong> — Open each live URL; score clarity, department
+            usefulness, demo quality.
+          </li>
+          <li>
+            <strong>12:00</strong> — Announce winners.
           </li>
         </ol>
         <p className="mt-4 rounded-lg bg-parchment px-4 py-3 text-foreground">
-          <strong>Tip:</strong> Keep the Issues tab open during the event. New teams appear as soon as they register.
+          <strong>Tip:</strong> Keep Gmail open filtered by{" "}
+          <code className="text-xs">[AI-Thon Solution]</code>. First FormSubmit
+          email may need a one-time confirm link.
         </p>
       </div>
     </div>
