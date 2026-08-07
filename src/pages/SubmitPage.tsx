@@ -70,7 +70,7 @@ export function SubmitPage() {
       return;
     }
     if (!vercelUrl.trim() || !isValidUrl(vercelUrl)) {
-      setError("Please enter a valid public URL (https://…).",);
+      setError("Please enter a valid public URL (https://…).");
       return;
     }
     if (repoUrl.trim() && !isValidUrl(repoUrl)) {
@@ -92,7 +92,6 @@ export function SubmitPage() {
 
     setSending(true);
     try {
-      // Send to organizer email via FormSubmit (free, no backend)
       const res = await fetch(`https://formsubmit.co/ajax/${ORGANIZER_EMAIL}`, {
         method: "POST",
         headers: {
@@ -167,7 +166,6 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ── Success: show ALL entered data ──────────────────────────────────────
   if (entry) {
     const rows: { label: string; value: React.ReactNode }[] = [
       { label: "Team name", value: entry.teamName },
@@ -226,7 +224,6 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
             </p>
           </div>
 
-          {/* Full entered data */}
           <div className="mt-8 overflow-hidden rounded-xl border border-border">
             <div className="border-b border-border bg-secondary/50 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Entered data
@@ -294,7 +291,6 @@ Submitted: ${new Date(entry.submittedAt).toLocaleString()}`
     );
   }
 
-  // ── Form ────────────────────────────────────────────────────────────────
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-10 animate-fade-up text-center">
