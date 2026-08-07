@@ -11,12 +11,17 @@ export interface ProblemStatement {
   active: boolean;
 }
 
+/**
+ * All problem statements are designed to solve real needs of the
+ * Department of Artificial Intelligence & Machine Learning,
+ * Jeppiaar Engineering College (faculty, students, labs, exam cell).
+ */
 export const PROBLEMS: ProblemStatement[] = [
   {
     id: "1",
-    title: "Attendance Tracker",
+    title: "Department Attendance Tracker",
     description:
-      "Build a web-based attendance tracking system for the department that lets faculty mark attendance, generate daily reports, and alert students with low attendance via email.",
+      "Build a simple web app for AI & ML faculty to mark daily class attendance by section, view subject-wise % for each student, export reports for the exam cell, and flag students below 75% so mentors can intervene early.",
     difficulty: "easy",
     min_team_size: 1,
     max_team_size: 3,
@@ -25,9 +30,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "2",
-    title: "Lab Booking System",
+    title: "AI/ML Lab Slot Booker",
     description:
-      "Create a software solution that allows students and faculty to book AI/ML lab slots, check equipment availability, and avoid double bookings.",
+      "Create a booking system for the department AI/ML lab: students and faculty reserve time slots, see which machines/GPUs are free, prevent double-booking, and let the lab-in-charge approve or cancel bookings.",
     difficulty: "easy",
     min_team_size: 1,
     max_team_size: 3,
@@ -36,9 +41,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "3",
-    title: "Assignment Submission Portal",
+    title: "IAT / Assignment Dropbox",
     description:
-      "Develop a portal where students submit assignments, faculty review them, and deadlines are tracked with automatic reminders.",
+      "Develop a portal where AI & ML students upload internal assessment (IAT) / assignment files by subject and deadline. Faculty can download submissions, mark as reviewed, and see who is late — useful for exam cell and course coordinators.",
     difficulty: "easy",
     min_team_size: 2,
     max_team_size: 4,
@@ -47,9 +52,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "4",
-    title: "Internal Notice Board",
+    title: "Department Notice & Event Board",
     description:
-      "Build a digital notice board for the department where announcements, event updates, and deadlines are posted and filtered by category.",
+      "Build a digital notice board for the AI & ML department: post circulars, seminar dates, placement drives, and internal deadlines. Filter by year/section, pin important items, and let students mark notices as read.",
     difficulty: "medium",
     min_team_size: 3,
     max_team_size: 5,
@@ -58,9 +63,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "5",
-    title: "Mentor-Mentee Matching",
+    title: "Mentor–Mentee Allocator",
     description:
-      "Create a software tool that matches students with faculty mentors based on interests, research areas, and availability.",
+      "Create a tool that matches AI & ML students with faculty mentors based on research interest (CV, NLP, MLOps, etc.), year, and mentor load. Faculty see their mentee list; students see mentor contact and meeting slots.",
     difficulty: "medium",
     min_team_size: 3,
     max_team_size: 5,
@@ -69,9 +74,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "6",
-    title: "Project Showcase Platform",
+    title: "Student Project Showcase",
     description:
-      "Design a platform for students to showcase AI/ML projects, receive peer feedback, and build a department portfolio.",
+      "Design a department portfolio site where AI & ML students publish mini-projects and final-year projects (title, abstract, tech stack, demo link, GitHub). Faculty and visitors can filter by domain and year — useful for NAAC, visitors, and placements.",
     difficulty: "medium",
     min_team_size: 4,
     max_team_size: 6,
@@ -80,9 +85,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "7",
-    title: "Research Paper Repository",
+    title: "Department Research Repository",
     description:
-      "Build a searchable repository for department research papers with tagging, citation tracking, and access control.",
+      "Build a searchable archive of papers, posters, and project reports from the AI & ML department. Tag by topic and year, store PDF/links, and let faculty add publications so the department has one place for research output.",
     difficulty: "medium",
     min_team_size: 4,
     max_team_size: 6,
@@ -91,9 +96,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "8",
-    title: "Smart Timetable Generator",
+    title: "Conflict-Free Timetable Helper",
     description:
-      "Develop an AI-assisted timetable generator that schedules classes, labs, and faculty duties while minimizing conflicts.",
+      "Develop a timetable assistant for the AI & ML department that takes subjects, faculty, rooms, and lab slots as input and suggests a weekly schedule with minimal clashes (faculty double-booked, room conflict, back-to-back labs).",
     difficulty: "hard",
     min_team_size: 5,
     max_team_size: 8,
@@ -102,9 +107,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "9",
-    title: "AI Proctoring System",
+    title: "Internal Exam Support Toolkit",
     description:
-      "Create a software prototype for remote proctoring of internal exams using computer vision or behaviour analysis.",
+      "Create tools that help the department and exam cell for IATs: seating plan generator by reg. no., absentees list, quick mark-entry helper, or a simple browser-based proctoring checklist for online internals.",
     difficulty: "hard",
     min_team_size: 6,
     max_team_size: 9,
@@ -113,9 +118,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "10",
-    title: "Department Helpdesk Chatbot",
+    title: "AI & ML Department FAQ Chatbot",
     description:
-      "Build a chatbot that answers common student queries about courses, faculty availability, events, and lab rules.",
+      "Build a chatbot trained on department FAQs: syllabus, lab rules, faculty cabin hours, internal marks process, placement eligibility, and event dates. Students get instant answers; reduces repetitive questions to staff and coordinators.",
     difficulty: "hard",
     min_team_size: 6,
     max_team_size: 9,
@@ -124,9 +129,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "11",
-    title: "Research Collaboration Network",
+    title: "Faculty–Student Research Connector",
     description:
-      "Design a platform that connects faculty and students across research groups, tracks ongoing projects, and recommends collaborators.",
+      "Design a platform for the AI & ML department where faculty list open research/project slots and students express interest. Track ongoing work, preferred domains (vision, LLMs, edge AI), and help form project groups for mini and major projects.",
     difficulty: "extreme",
     min_team_size: 8,
     max_team_size: 12,
@@ -135,9 +140,9 @@ export const PROBLEMS: ProblemStatement[] = [
   },
   {
     id: "12",
-    title: "Predictive Resource Planner",
+    title: "Lab & Resource Demand Predictor",
     description:
-      "Create a predictive system that forecasts lab equipment, classroom, and faculty needs for upcoming semesters based on enrollment data.",
+      "Create a simple analytics tool that uses past enrollment, elective choices, and lab booking history to forecast how many GPU hours, seats, and lab sessions the AI & ML department will need next semester — for planning purchases and schedules.",
     difficulty: "extreme",
     min_team_size: 9,
     max_team_size: 15,
