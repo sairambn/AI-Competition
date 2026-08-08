@@ -18,7 +18,7 @@ export function Layout() {
 
   const linkClass = (to: string) =>
     cn(
-      "rounded-md px-2.5 py-1.5 text-sm transition-colors",
+      "rounded px-2.5 py-1.5 text-sm transition-colors",
       pathname === to
         ? "bg-primary/15 font-semibold text-primary"
         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -26,14 +26,14 @@ export function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 border-b border-border bg-card/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-              <span className="text-base font-extrabold tracking-tight">AI</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <span className="text-sm font-bold tracking-tight">AI</span>
             </div>
             <div className="leading-tight">
-              <span className="block text-sm font-bold tracking-wide text-foreground">
+              <span className="block text-sm font-semibold tracking-wide text-foreground">
                 JEPPIAAR
               </span>
               <span className="block text-[11px] text-muted-foreground">
@@ -42,7 +42,7 @@ export function Layout() {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-0.5 md:flex">
             {NAV.map((n) => (
               <Link key={n.to} to={n.to} className={linkClass(n.to)}>
                 {n.label}
@@ -50,7 +50,7 @@ export function Layout() {
             ))}
             <Link
               to="/submit"
-              className="btn-shine ml-2 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
+              className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:opacity-90"
             >
               <Rocket className="h-3.5 w-3.5" /> Submit
             </Link>
@@ -58,7 +58,7 @@ export function Layout() {
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border md:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border md:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -82,9 +82,9 @@ export function Layout() {
               <Link
                 to="/submit"
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground"
               >
-                <Rocket className="h-4 w-4" /> Submit Vercel link
+                <Rocket className="h-4 w-4" /> Submit live link
               </Link>
             </nav>
           </div>
