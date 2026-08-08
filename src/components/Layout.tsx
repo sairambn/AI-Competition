@@ -29,7 +29,7 @@ export function Layout() {
       <header className="sticky top-0 z-50 border-b border-border bg-card/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_0_20px_-4px] shadow-primary/50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
               <span className="text-base font-extrabold tracking-tight">AI</span>
             </div>
             <div className="leading-tight">
