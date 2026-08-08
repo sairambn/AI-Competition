@@ -1,257 +1,172 @@
 import { Link } from "react-router-dom";
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Trophy,
-  Users,
-  Lightbulb,
-  Code,
-  Flag,
-  Laptop,
-  Presentation,
-  CheckCircle2,
-  Rocket,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const agenda = [
   {
-    time: "10:00 AM",
-    end: "10:25 AM",
-    label: "Registration & Team Check-in",
-    what: "Teams arrive, confirm members, and get seating.",
-    how: "Show your team name at the desk. Collect any handouts.",
-    icon: Flag,
+    time: "10:00",
+    end: "10:25",
+    label: "Registration & check-in",
+    what: "Teams arrive, confirm members, take seats.",
+    how: "Give your team name at the desk. Collect any handouts.",
   },
   {
-    time: "10:30 AM",
-    end: "10:40 AM",
-    label: "Problem Statement Release",
-    what: "Each team receives a software problem matched to team size — all useful for the AI & ML department.",
-    how: "Open this site → Problems → enter team name & size → Get problem → Copy / Register assignment.",
-    icon: Lightbulb,
+    time: "10:30",
+    end: "10:40",
+    label: "Problem release",
+    what: "Each team gets a department-useful problem matched to team size.",
+    how: "Problems → team name & size → Get problem → Register.",
   },
   {
-    time: "10:45 AM",
-    end: "11:35 AM",
-    label: "Build & Deploy",
-    what: "Design and build a working solution, then deploy a public demo (Vercel recommended).",
-    how: "Any stack is fine. Aim for a clear live URL, not perfect production code.",
-    icon: Laptop,
+    time: "10:45",
+    end: "11:35",
+    label: "Build & deploy",
+    what: "Ship a working demo on a public URL (Vercel recommended).",
+    how: "Any stack. Prefer a clear live link over perfect production code.",
   },
   {
-    time: "11:35 AM",
-    end: "11:40 AM",
-    label: "Submit Vercel link",
-    what: "Official submission: public deployment URL + team details.",
-    how: "Open Submit → fill form → Submit solution. Data is emailed to organizers and shown on screen.",
-    icon: Rocket,
+    time: "11:35",
+    end: "11:40",
+    label: "Submit live link",
+    what: "Official submission: public URL + team details.",
+    how: "Submit page → fill form → submit. Organizers are emailed.",
   },
   {
-    time: "11:40 AM",
-    end: "11:55 AM",
-    label: "Presentation Window",
-    what: "Teams present their live solution to judges.",
-    how: "2–3 minutes per team. Open the live URL and walk through how it helps the department.",
-    icon: Presentation,
+    time: "11:40",
+    end: "11:55",
+    label: "Presentations",
+    what: "Teams show the live solution to judges.",
+    how: "2–3 minutes. Open the URL and explain department impact.",
   },
   {
-    time: "12:00 PM",
-    end: "12:10 PM",
-    label: "Winner Announcement",
+    time: "12:00",
+    end: "12:10",
+    label: "Winners",
     what: "Best solution for the department, presented clearly, wins.",
-    how: "Judges score clarity, usefulness, and demo quality. Winners announced on stage.",
-    icon: Trophy,
-  },
-];
-
-const categories = [
-  {
-    icon: Code,
-    label: "Department Operations",
-    examples: "Attendance, lab booking, IAT dropbox, notices",
-  },
-  {
-    icon: Users,
-    label: "Academic Workflow",
-    examples: "Mentoring, project showcase, research archive",
-  },
-  {
-    icon: Lightbulb,
-    label: "AI & Support",
-    examples: "FAQ chatbot, exam toolkit, timetable helper",
-  },
-  {
-    icon: Trophy,
-    label: "Planning & Collaboration",
-    examples: "Research connector, lab demand predictor",
+    how: "Scored on clarity, usefulness, and demo quality.",
   },
 ];
 
 export function SchedulePage() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-10 animate-fade-up text-center">
-        <span className="mb-3 inline-flex rounded-full bg-accent/90 px-3 py-1 text-xs font-semibold text-accent-foreground">
-          Event Agenda
-        </span>
-        <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
-          Agenda & Rules
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <header className="mb-12 animate-fade-up">
+        <p className="text-sm font-medium text-primary">Event day</p>
+        <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">
+          Agenda & rules
         </h1>
-        <p className="mt-2 text-muted-foreground">
-          What happens, when, and exactly how you take part
+        <p className="mt-3 text-muted-foreground">
+          Friday, 07 August 2026 · 10:00 AM – 12:10 PM · Elite Seminar Hall
         </p>
-      </div>
+      </header>
 
-      <div className="stagger mb-12 grid gap-4 sm:grid-cols-3">
-        {[
-          { icon: Calendar, text: "Friday, 07th August 2026", sub: "Event day" },
-          { icon: Clock, text: "10:00 AM — 12:10 PM", sub: "Full window" },
-          { icon: MapPin, text: "Elite Seminar Hall", sub: "Venue" },
-        ].map((item) => (
-          <div
-            key={item.text}
-            className="card-lift rounded-xl border border-border bg-card p-5 text-center shadow-sm"
-          >
-            <item.icon className="mx-auto h-6 w-6 text-gold" />
-            <p className="mt-3 text-sm font-semibold text-foreground">{item.text}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{item.sub}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mb-14">
-        <h2 className="mb-2 text-2xl font-bold text-foreground">Minute-by-minute agenda</h2>
-        <p className="mb-6 text-sm text-muted-foreground">
-          Same flow for every team. Deploy early so you can submit and present calmly.
-        </p>
-        <div className="relative space-y-5 pl-8 before:absolute before:left-3 before:top-2 before:h-[calc(100%-1rem)] before:w-px before:bg-border">
+      <section className="mb-14">
+        <h2 className="mb-6 text-2xl text-foreground">Minute by minute</h2>
+        <ol className="divide-y divide-border border border-border">
           {agenda.map((item, index) => (
-            <div key={item.time} className="relative">
-              <span className="absolute -left-8 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                {index + 1}
-              </span>
-              <div className="card-lift rounded-xl border border-border bg-card p-5 shadow-sm">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-gold/50 px-2.5 py-0.5 text-xs font-semibold text-foreground">
-                    {item.time} – {item.end}
-                  </span>
-                  <item.icon className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-foreground">{item.label}</h3>
-                </div>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-lg bg-parchment/80 p-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">
-                      What happens
-                    </p>
-                    <p className="mt-1 text-sm text-foreground">{item.what}</p>
-                  </div>
-                  <div className="rounded-lg bg-parchment/80 p-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-olive">
-                      How you do it
-                    </p>
-                    <p className="mt-1 text-sm text-foreground">{item.how}</p>
-                  </div>
-                </div>
+            <li key={item.time} className="grid gap-3 px-5 py-5 sm:grid-cols-[5.5rem_1fr]">
+              <div className="font-mono text-sm">
+                <p className="font-semibold text-accent">{item.time}</p>
+                <p className="text-xs text-muted-foreground">{item.end}</p>
+                <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
               </div>
-            </div>
+              <div>
+                <h3 className="text-base font-semibold text-foreground">
+                  {item.label}
+                </h3>
+                <p className="mt-1.5 text-sm text-foreground/90">{item.what}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground/80">How: </span>
+                  {item.how}
+                </p>
+              </div>
+            </li>
           ))}
-        </div>
-      </div>
+        </ol>
+      </section>
 
-      <div className="mb-14 rounded-xl border border-gold/30 bg-parchment p-6">
-        <h2 className="flex items-center gap-2 text-xl font-bold text-foreground">
-          <CheckCircle2 className="h-5 w-5 text-gold" />
-          Your path in 5 steps
-        </h2>
-        <ol className="mt-4 space-y-3 text-sm text-foreground">
-          <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              1
-            </span>
-            <span>
-              <strong>Form a team</strong> (size drives difficulty).
-            </span>
+      <section className="mb-14 border border-border bg-card px-5 py-6">
+        <h2 className="text-xl text-foreground">Your path</h2>
+        <ol className="mt-4 space-y-3 text-sm text-muted-foreground">
+          <li>
+            <span className="font-mono text-primary">1</span>{" "}
+            <strong className="text-foreground">Form a team</strong> — size drives
+            difficulty.
           </li>
-          <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              2
-            </span>
-            <span>
-              <strong>At 10:30</strong> get your department problem and register assignment.
-            </span>
+          <li>
+            <span className="font-mono text-primary">2</span>{" "}
+            <strong className="text-foreground">At 10:30</strong> claim a problem and
+            register.
           </li>
-          <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              3
-            </span>
-            <span>
-              <strong>Build & deploy</strong> a public demo (Vercel preferred).
-            </span>
+          <li>
+            <span className="font-mono text-primary">3</span>{" "}
+            <strong className="text-foreground">Build & deploy</strong> a public demo.
           </li>
-          <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              4
-            </span>
-            <span>
-              <strong>Submit</strong> the live URL on the Submit page.
-            </span>
+          <li>
+            <span className="font-mono text-primary">4</span>{" "}
+            <strong className="text-foreground">Submit</strong> the live URL on this
+            site.
           </li>
-          <li className="flex gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              5
-            </span>
-            <span>
-              <strong>Present</strong> 2–3 min; winners at 12:00.
-            </span>
+          <li>
+            <span className="font-mono text-primary">5</span>{" "}
+            <strong className="text-foreground">Present</strong> 2–3 min; winners at
+            12:00.
           </li>
         </ol>
         <Link
           to="/submit"
-          className="btn-shine mt-5 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
         >
           Go to Submit <ArrowRight className="h-4 w-4" />
         </Link>
-      </div>
+      </section>
 
-      <div>
-        <h2 className="mb-6 text-2xl font-bold text-foreground">Problem categories</h2>
-        <div className="stagger grid gap-5 sm:grid-cols-2">
-          {categories.map((category) => (
-            <div
-              key={category.label}
-              className="card-lift rounded-xl border border-border bg-card p-5 shadow-sm"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-foreground">
-                  <category.icon className="h-5 w-5" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {category.label}
-                </h3>
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">{category.examples}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <section className="mb-14">
+        <h2 className="mb-4 text-xl text-foreground">Problem themes</h2>
+        <ul className="grid gap-3 text-sm sm:grid-cols-2">
+          <li className="border border-border px-4 py-3">
+            <p className="font-semibold text-foreground">Department operations</p>
+            <p className="mt-1 text-muted-foreground">
+              Attendance, lab booking, IAT dropbox, notices
+            </p>
+          </li>
+          <li className="border border-border px-4 py-3">
+            <p className="font-semibold text-foreground">Academic workflow</p>
+            <p className="mt-1 text-muted-foreground">
+              Mentoring, project showcase, research archive
+            </p>
+          </li>
+          <li className="border border-border px-4 py-3">
+            <p className="font-semibold text-foreground">AI & support</p>
+            <p className="mt-1 text-muted-foreground">
+              FAQ chatbot, exam toolkit, timetable helper
+            </p>
+          </li>
+          <li className="border border-border px-4 py-3">
+            <p className="font-semibold text-foreground">Planning</p>
+            <p className="mt-1 text-muted-foreground">
+              Research connector, lab demand predictor
+            </p>
+          </li>
+        </ul>
+      </section>
 
-      <div className="mt-12 rounded-xl border border-border bg-parchment p-6">
-        <h2 className="text-xl font-bold text-foreground">Rules</h2>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+      <section className="border border-border bg-parchment px-5 py-6">
+        <h2 className="text-xl text-foreground">Rules</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
           <li>
-            One problem per team, matched to team size (Easy → Extreme), all aimed at
-            real department needs.
+            One problem per team, matched to size (Easy → Extreme), aimed at real
+            department needs.
           </li>
           <li>
-            Official submission is a <strong>public live URL</strong> via the Submit
-            page (Vercel recommended).
+            Official submission is a <strong className="text-foreground">public live URL</strong>{" "}
+            via the Submit page.
           </li>
           <li>Judging: clarity · usefulness for the department · demo quality.</li>
           <li>Best solution presented on time wins.</li>
         </ul>
-      </div>
+      </section>
     </div>
   );
 }
