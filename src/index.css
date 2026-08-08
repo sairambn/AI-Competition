@@ -34,141 +34,240 @@
   --color-extreme-foreground: var(--extreme-foreground);
 }
 
-/* Neon Noir — restrained
-   Dark room, one neon sign in the window.
-   Not every surface needs to glow. */
+/*
+  Professional dark system
+  Designed for clarity, hierarchy, and long sessions.
+  No neon. No glow-for-glow's-sake.
+*/
 :root {
   --radius: 0.5rem;
 
-  --background: #0c0c10;
-  --foreground: #e8e6e3;
+  /* Base surfaces */
+  --background: #09090b;          /* zinc-950 */
+  --foreground: #fafafa;          /* zinc-50 */
 
-  --card: #14141a;
-  --card-foreground: #e8e6e3;
+  --card: #121216;
+  --card-foreground: #fafafa;
 
-  --primary: #2dd4bf;
-  --primary-foreground: #0a0a0e;
+  /* Primary — confident indigo */
+  --primary: #6366f1;             /* indigo-500 */
+  --primary-foreground: #fafafa;
 
-  --secondary: #1c1c24;
-  --secondary-foreground: #c8c6c3;
+  --secondary: #1c1c22;
+  --secondary-foreground: #e4e4e7;
 
-  --muted: #1a1a22;
-  --muted-foreground: #8a8890;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;    /* zinc-400 */
 
-  --accent: #e879a8;
-  --accent-foreground: #0a0a0e;
+  /* Accent — warm amber for energy without neon */
+  --accent: #f59e0b;              /* amber-500 */
+  --accent-foreground: #1c1917;
 
-  --destructive: #e85d4c;
+  --destructive: #ef4444;
 
-  --border: #2a2a34;
-  --input: #1a1a22;
-  --ring: #2dd4bf;
+  --border: #27272a;              /* zinc-800 */
+  --input: #18181b;
+  --ring: #6366f1;
 
-  /* mapped tokens used across the app */
-  --gold: #2dd4bf;
-  --olive: #c4b5c8;
-  --parchment: #12121a;
+  /* Legacy tokens mapped to the new system */
+  --gold: #f59e0b;                /* used for small highlights / icons */
+  --olive: #a1a1aa;               /* secondary labels */
+  --parchment: #0f0f12;
 
-  --easy: #1a3d32;
-  --easy-foreground: #5eead4;
+  /* Difficulty — calm, readable, not neon */
+  --easy: #052e16;
+  --easy-foreground: #86efac;
 
-  --medium: #1a2a42;
-  --medium-foreground: #7dd3fc;
+  --medium: #172554;
+  --medium-foreground: #93c5fd;
 
-  --hard: #3d3420;
+  --hard: #422006;
   --hard-foreground: #fcd34d;
 
-  --extreme: #3d1a1a;
+  --extreme: #450a0a;
   --extreme-foreground: #fca5a5;
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 650;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
   }
+
   ::selection {
-    background: color-mix(in srgb, var(--primary) 30%, transparent);
+    background: color-mix(in srgb, var(--primary) 28%, transparent);
     color: var(--foreground);
   }
 }
 
 @layer utilities {
-  .bg-parchment { background-color: var(--color-parchment); }
-  .text-gold { color: var(--color-gold); }
-  .border-gold { border-color: color-mix(in srgb, var(--color-gold) 45%, transparent); }
-  .text-olive { color: var(--color-olive); }
+  .bg-parchment {
+    background-color: var(--color-parchment);
+  }
+  .text-gold {
+    color: var(--color-gold);
+  }
+  .border-gold {
+    border-color: color-mix(in srgb, var(--color-gold) 40%, transparent);
+  }
+  .text-olive {
+    color: var(--color-olive);
+  }
 }
 
+/* Motion — short, purposeful */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
+
 @keyframes result-pop {
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.animate-fade-up { animation: fade-up 0.45s ease-out both; }
-.animate-scale-in { animation: scale-in 0.4s ease-out both; }
-.animate-float { animation: float 5s ease-in-out infinite; }
-.animate-result { animation: result-pop 0.4s ease-out both; }
-.delay-100 { animation-delay: 0.08s; }
-.delay-200 { animation-delay: 0.14s; }
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+.animate-scale-in {
+  animation: scale-in 0.35s ease-out both;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-result {
+  animation: result-pop 0.35s ease-out both;
+}
+.delay-100 {
+  animation-delay: 0.07s;
+}
+.delay-200 {
+  animation-delay: 0.12s;
+}
 
-/* subtle top wash — not a spotlight */
+/* Subtle top wash — restrained */
 .hero-glow {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--primary) 6%, transparent) 0%,
-    transparent 42%
+    color-mix(in srgb, var(--primary) 5%, transparent) 0%,
+    transparent 48%
   );
 }
 
-/* thin border, almost no glow */
+/* Thin border only — no outer glow */
 .hero-card-glow {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 22%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
 .card-lift {
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.18s ease, background-color 0.18s ease,
+    transform 0.18s ease;
 }
 .card-lift:hover {
-  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
-  background-color: color-mix(in srgb, var(--card) 92%, var(--primary));
+  border-color: color-mix(in srgb, var(--primary) 32%, var(--border));
+  background-color: color-mix(in srgb, var(--card) 94%, var(--primary));
 }
 
-.btn-shine { position: relative; }
+.btn-shine {
+  position: relative;
+  transition: filter 0.15s ease, background-color 0.15s ease;
+}
 .btn-shine:hover {
-  filter: brightness(1.06);
+  filter: brightness(1.05);
 }
 
-.stagger > * { animation: fade-up 0.4s ease-out both; }
-.stagger > *:nth-child(1) { animation-delay: 0.03s; }
-.stagger > *:nth-child(2) { animation-delay: 0.06s; }
-.stagger > *:nth-child(3) { animation-delay: 0.09s; }
-.stagger > *:nth-child(4) { animation-delay: 0.12s; }
-.stagger > *:nth-child(5) { animation-delay: 0.15s; }
-.stagger > *:nth-child(6) { animation-delay: 0.18s; }
-.stagger > *:nth-child(7) { animation-delay: 0.21s; }
-.stagger > *:nth-child(8) { animation-delay: 0.24s; }
-.stagger > *:nth-child(9) { animation-delay: 0.27s; }
-.stagger > *:nth-child(10) { animation-delay: 0.3s; }
-.stagger > *:nth-child(11) { animation-delay: 0.33s; }
-.stagger > *:nth-child(12) { animation-delay: 0.36s; }
+.stagger > * {
+  animation: fade-up 0.35s ease-out both;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0.03s;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 0.09s;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 0.12s;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 0.15s;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 0.18s;
+}
+.stagger > *:nth-child(7) {
+  animation-delay: 0.21s;
+}
+.stagger > *:nth-child(8) {
+  animation-delay: 0.24s;
+}
+.stagger > *:nth-child(9) {
+  animation-delay: 0.27s;
+}
+.stagger > *:nth-child(10) {
+  animation-delay: 0.3s;
+}
+.stagger > *:nth-child(11) {
+  animation-delay: 0.33s;
+}
+.stagger > *:nth-child(12) {
+  animation-delay: 0.36s;
+}
