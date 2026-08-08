@@ -35,50 +35,47 @@
 }
 
 /*
-  Professional dark system
-  Designed for clarity, hierarchy, and long sessions.
-  No neon. No glow-for-glow's-sake.
+  Event tool aesthetic — not a SaaS landing page.
+  Avoids the common AI defaults: Inter, indigo gradients,
+  three identical icon cards, glassmorphism, neon glows.
 */
 :root {
-  --radius: 0.5rem;
+  --radius: 0.375rem;
 
-  /* Base surfaces */
-  --background: #09090b;          /* zinc-950 */
-  --foreground: #fafafa;          /* zinc-50 */
+  --background: #0a0a0b;
+  --foreground: #f5f5f4;
 
-  --card: #121216;
-  --card-foreground: #fafafa;
+  --card: #131315;
+  --card-foreground: #f5f5f4;
 
-  /* Primary — confident indigo */
-  --primary: #6366f1;             /* indigo-500 */
-  --primary-foreground: #fafafa;
+  /* Grounded teal — institutional, not indigo/purple */
+  --primary: #0d9488;
+  --primary-foreground: #f0fdfa;
 
-  --secondary: #1c1c22;
-  --secondary-foreground: #e4e4e7;
+  --secondary: #1a1a1d;
+  --secondary-foreground: #e7e5e4;
 
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;    /* zinc-400 */
+  --muted: #161618;
+  --muted-foreground: #a8a29e;
 
-  /* Accent — warm amber for energy without neon */
-  --accent: #f59e0b;              /* amber-500 */
+  /* Warm accent for time/urgency */
+  --accent: #d97706;
   --accent-foreground: #1c1917;
 
-  --destructive: #ef4444;
+  --destructive: #dc2626;
 
-  --border: #27272a;              /* zinc-800 */
-  --input: #18181b;
-  --ring: #6366f1;
+  --border: #26262b;
+  --input: #161618;
+  --ring: #0d9488;
 
-  /* Legacy tokens mapped to the new system */
-  --gold: #f59e0b;                /* used for small highlights / icons */
-  --olive: #a1a1aa;               /* secondary labels */
-  --parchment: #0f0f12;
+  --gold: #d97706;
+  --olive: #a8a29e;
+  --parchment: #0e0e10;
 
-  /* Difficulty — calm, readable, not neon */
   --easy: #052e16;
   --easy-foreground: #86efac;
 
-  --medium: #172554;
+  --medium: #1e3a5f;
   --medium-foreground: #93c5fd;
 
   --hard: #422006;
@@ -100,8 +97,9 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      sans-serif;
+    font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    font-feature-settings: "ss01" on, "ss02" on;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -112,13 +110,14 @@
   h4,
   h5,
   h6 {
-    font-weight: 650;
-    letter-spacing: -0.025em;
+    font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     color: var(--color-foreground);
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--primary) 28%, transparent);
+    background: color-mix(in srgb, var(--primary) 30%, transparent);
     color: var(--foreground);
   }
 }
@@ -136,45 +135,26 @@
   .text-olive {
     color: var(--color-olive);
   }
+  .font-display {
+    font-family: "Instrument Serif", Georgia, serif;
+  }
 }
 
-/* Motion — short, purposeful */
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
   }
 }
 
 @keyframes result-pop {
   0% {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(4px);
   }
   100% {
     opacity: 1;
@@ -183,91 +163,90 @@
 }
 
 .animate-fade-up {
-  animation: fade-up 0.4s ease-out both;
+  animation: fade-up 0.35s ease-out both;
 }
 .animate-scale-in {
-  animation: scale-in 0.35s ease-out both;
+  animation: fade-up 0.3s ease-out both;
 }
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  /* intentionally disabled — floating logos are a common AI tell */
+  animation: none;
 }
 .animate-result {
-  animation: result-pop 0.35s ease-out both;
+  animation: result-pop 0.3s ease-out both;
 }
 .delay-100 {
-  animation-delay: 0.07s;
+  animation-delay: 0.06s;
 }
 .delay-200 {
-  animation-delay: 0.12s;
+  animation-delay: 0.1s;
 }
 
-/* Subtle top wash — restrained */
 .hero-glow {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--primary) 5%, transparent) 0%,
-    transparent 48%
+    color-mix(in srgb, var(--primary) 4%, transparent) 0%,
+    transparent 50%
   );
 }
 
-/* Thin border only — no outer glow */
 .hero-card-glow {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
+  box-shadow: none;
+  border-color: var(--border);
 }
 
 .card-lift {
-  transition: border-color 0.18s ease, background-color 0.18s ease,
-    transform 0.18s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 .card-lift:hover {
-  border-color: color-mix(in srgb, var(--primary) 32%, var(--border));
-  background-color: color-mix(in srgb, var(--card) 94%, var(--primary));
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  background-color: color-mix(in srgb, var(--card) 96%, var(--primary));
 }
 
 .btn-shine {
-  position: relative;
-  transition: filter 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 .btn-shine:hover {
-  filter: brightness(1.05);
+  filter: none;
+  opacity: 0.92;
 }
 
 .stagger > * {
-  animation: fade-up 0.35s ease-out both;
+  animation: fade-up 0.3s ease-out both;
 }
 .stagger > *:nth-child(1) {
-  animation-delay: 0.03s;
+  animation-delay: 0.02s;
 }
 .stagger > *:nth-child(2) {
-  animation-delay: 0.06s;
+  animation-delay: 0.04s;
 }
 .stagger > *:nth-child(3) {
-  animation-delay: 0.09s;
+  animation-delay: 0.06s;
 }
 .stagger > *:nth-child(4) {
-  animation-delay: 0.12s;
+  animation-delay: 0.08s;
 }
 .stagger > *:nth-child(5) {
-  animation-delay: 0.15s;
+  animation-delay: 0.1s;
 }
 .stagger > *:nth-child(6) {
-  animation-delay: 0.18s;
+  animation-delay: 0.12s;
 }
 .stagger > *:nth-child(7) {
-  animation-delay: 0.21s;
+  animation-delay: 0.14s;
 }
 .stagger > *:nth-child(8) {
-  animation-delay: 0.24s;
+  animation-delay: 0.16s;
 }
 .stagger > *:nth-child(9) {
-  animation-delay: 0.27s;
+  animation-delay: 0.18s;
 }
 .stagger > *:nth-child(10) {
-  animation-delay: 0.3s;
+  animation-delay: 0.2s;
 }
 .stagger > *:nth-child(11) {
-  animation-delay: 0.33s;
+  animation-delay: 0.22s;
 }
 .stagger > *:nth-child(12) {
-  animation-delay: 0.36s;
+  animation-delay: 0.24s;
 }
