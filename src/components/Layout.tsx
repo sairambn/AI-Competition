@@ -18,34 +18,28 @@ export function Layout() {
 
   useEffect(() => {
     setOpen(false);
-    // Use classic scrollTo — avoids ScrollBehavior quirks on some mobile browsers
     window.scrollTo(0, 0);
   }, [pathname]);
 
   const linkClass = (to: string) =>
     cn(
-      "rounded-md px-2.5 py-1.5 text-sm transition-colors",
+      "rounded-full px-3 py-1.5 text-xs font-medium tracking-wide transition-colors",
       pathname === to
-        ? "bg-primary/15 font-semibold text-primary"
-        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+        ? "bg-white/10 text-[#f5f5f7]"
+        : "text-[#86868b] hover:text-[#f5f5f7]"
     );
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/40 bg-primary/10 text-primary">
-              <span className="text-sm font-bold tracking-tight">AI</span>
-            </div>
-            <div className="leading-tight">
-              <span className="block text-sm font-semibold tracking-wide text-foreground">
-                JEPPIAAR
-              </span>
-              <span className="block text-[11px] text-muted-foreground">
-                AI & ML · Solve-a-Thon
-              </span>
-            </div>
+    <div className="flex min-h-screen flex-col bg-black">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-6 py-3 lg:px-8">
+          <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-[#f5f5f7]">
+              AI
+            </span>
+            <span className="text-sm font-medium tracking-tight text-[#f5f5f7]">
+              Solve-a-Thon
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main">
@@ -56,7 +50,7 @@ export function Layout() {
             ))}
             <Link
               to="/submit"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:opacity-90"
+              className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-medium text-white hover:opacity-90"
             >
               <Rocket className="h-3.5 w-3.5" /> Submit
             </Link>
@@ -64,7 +58,7 @@ export function Layout() {
 
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border md:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[#f5f5f7] md:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -74,7 +68,7 @@ export function Layout() {
         </div>
 
         {open && (
-          <div className="border-t border-border bg-card px-4 py-3 md:hidden">
+          <div className="border-t border-white/10 bg-black/95 px-6 py-4 backdrop-blur-xl md:hidden">
             <nav className="flex flex-col gap-1" aria-label="Mobile">
               {NAV.map((n) => (
                 <Link
@@ -89,7 +83,7 @@ export function Layout() {
               <Link
                 to="/submit"
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground"
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-white"
               >
                 <Rocket className="h-4 w-4" /> Submit live link
               </Link>
@@ -102,14 +96,14 @@ export function Layout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <footer className="border-t border-white/10 bg-black">
+        <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-3">
             <div>
-              <p className="text-sm font-semibold text-foreground">
+              <p className="text-sm font-medium text-[#f5f5f7]">
                 Jeppiaar Engineering College
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              <p className="mt-1 text-xs leading-relaxed text-[#86868b]">
                 Department of Artificial Intelligence and Machine Learning
               </p>
             </div>
@@ -118,13 +112,13 @@ export function Layout() {
                 <Link
                   key={n.to}
                   to={n.to}
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-[#86868b] hover:text-[#f5f5f7]"
                 >
                   {n.label}
                 </Link>
               ))}
             </div>
-            <div className="text-xs text-muted-foreground sm:text-right">
+            <div className="text-xs text-[#86868b] sm:text-right">
               <p>© {new Date().getFullYear()} AI Problem Solve-a-Thon</p>
               <p className="mt-1">
                 Built by{" "}
@@ -132,7 +126,7 @@ export function Layout() {
                   href="https://bnsairam.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-primary underline-offset-4 hover:underline"
+                  className="font-medium text-primary hover:underline"
                 >
                   Sairam BN
                 </a>
