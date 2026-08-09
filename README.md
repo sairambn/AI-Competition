@@ -3,9 +3,42 @@
 **Department of Artificial Intelligence & Machine Learning**  
 Jeppiaar Engineering College
 
-Event platform for a 2-hour department hackathon: assign problems by team size, register teams, collect solutions on GitHub.
+Event platform for a 2-hour department hackathon: assign problems by team size, register teams, collect live demos.
 
 **Live site:** [ai-thon-one.vercel.app](https://ai-thon-one.vercel.app)
+
+---
+
+## Winner
+
+| | |
+|--|--|
+| **Winner** | **Lab Booker Pro** |
+| **Problem** | AI/ML Lab Slot Booker (Easy · Resource Management) |
+| **Live demo** | [lab-booker-pro.vercel.app](https://lab-booker-pro.vercel.app) |
+
+### Why this won
+
+Judged on **clarity · usefulness for the department · demo quality**.
+
+- **Clarity** — Dashboard, booking flow, and machine inventory are easy to understand in a 2–3 minute presentation.
+- **Usefulness** — Directly solves fair GPU/lab access for the AI & ML department (no double-booking, approval states, fleet load).
+- **Demo quality** — Multi-page working product: home stats, book a slot, machine inventory, pending/approved/rejected activity — strongest interactive demo among submissions.
+
+---
+
+## All evaluated submissions
+
+| Rank | Solution | Problem match | Live URL |
+|------|----------|---------------|----------|
+| **1 — Winner** | **Lab Booker Pro** | AI/ML Lab Slot Booker | [lab-booker-pro.vercel.app](https://lab-booker-pro.vercel.app) |
+| 2 | CourseFlow Hub (IAT & Assignment Dropbox) | IAT / Assignment Dropbox | [courseflow-hub.vercel.app](https://courseflow-hub.vercel.app) |
+| 3 | ExamNexus | Internal Exam Support Toolkit | [exam-nexus-iota.vercel.app](https://exam-nexus-iota.vercel.app) |
+
+### Notes on runners-up
+
+- **CourseFlow Hub** — Strong landing page aligned with the IAT/assignment dropbox problem (upload by subject, faculty review, late list). Dashboard was limited/auth-gated at review time.
+- **ExamNexus** — Matches the internal exam support toolkit problem; live page content was not fully evaluable at review time (client-heavy or incomplete shell).
 
 ---
 
@@ -34,66 +67,32 @@ Event platform for a 2-hour department hackathon: assign problems by team size, 
 Open the [live site → Problems](https://ai-thon-one.vercel.app/problems)
 
 1. Enter **team name**, **size**, **contact email**
-2. Click **Get Problem Statement**
-3. Click **Register (WhatsApp + Email)** so organizers can see you
+2. Click **Get free problem** (or claim a card)
+3. Click **Register & mark Taken** so organizers can see you
 
 ### 2. Build
-Ship a working demo (any stack). Prefer a public URL (Vercel, Netlify, etc.).
+Ship a working demo (any stack). Prefer a public URL (Vercel recommended).
 
-### 3. Submit code to this repo
+### 3. Submit live link
+Use the [Submit](https://ai-thon-one.vercel.app/submit) page with team details + public URL.
 
-```bash
-# Fork this repo on GitHub, then:
-git clone https://github.com/<YOUR_USERNAME>/AI-Competition.git
-cd AI-Competition
-git checkout -b solution/<your-team-name>
-
-mkdir -p solutions/<Your-Team-Name>
-# put your code + a short README inside that folder
-
-git add solutions/<Your-Team-Name>
-git commit -m "solution: <Your-Team-Name>"
-git push -u origin solution/<your-team-name>
-```
-
-Open a **Pull Request** titled:
-
-```text
-[Solution] <Your-Team-Name> — <Problem title>
-```
-
-Folder layout:
-
-```text
-solutions/
-  Your-Team-Name/
-    README.md      # what you built, how to run, live URL
-    ...your code
-```
-
-See [solutions/README.md](./solutions/README.md) and [CONTRIBUTING.md](./CONTRIBUTING.md).
+Optional: also open a PR under `solutions/` (see [solutions/README.md](./solutions/README.md)).
 
 ---
 
 ## For organizers
 
-1. Activate FormSubmit once (link in `sairam@jeppiaarcollege.org` inbox)
-2. Watch **WhatsApp** + **email** when teams register
-3. Review PRs under `solutions/`
+1. Activate FormSubmit once (link in organizer inbox)
+2. Watch **email** when teams register / submit
+3. Review live demos from the Submit / Entries flow
 4. Use the site **Organizer** page for links and run-of-show
-
-Optional: set your WhatsApp number in `src/pages/ProblemsPage.tsx`:
-
-```ts
-const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-```
 
 ---
 
 ## Stack
 
 React · TypeScript · Vite · Tailwind CSS v4 · React Router  
-Deployed on Vercel (SPA). Registration: WhatsApp + FormSubmit email.
+Deployed on Vercel (SPA). Registration & submissions: FormSubmit email.
 
 ## Local development
 
