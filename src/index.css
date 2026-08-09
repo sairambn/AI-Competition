@@ -35,54 +35,52 @@
 }
 
 /*
-  Apple-inspired motion + chrome.
-  Ease curve approximates Apple UI (smooth deceleration).
+  Hand-built event tool for Jeppiaar AI & ML.
+  Avoids: pure black Apple clones, Inter, indigo gradients,
+  pill CTAs, three identical feature cards, neon glow.
 */
 :root {
-  --radius: 0.75rem;
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --duration: 0.7s;
+  --radius: 0.25rem;
 
-  --background: #000000;
-  --foreground: #f5f5f7;
+  --background: #141210;
+  --foreground: #f2ebe3;
 
-  --card: #0c0c0e;
-  --card-foreground: #f5f5f7;
+  --card: #1c1916;
+  --card-foreground: #f2ebe3;
 
-  --primary: #2997ff;
-  --primary-foreground: #ffffff;
+  --primary: #c45c26;
+  --primary-foreground: #fff8f3;
 
-  --secondary: #161617;
-  --secondary-foreground: #f5f5f7;
+  --secondary: #24201c;
+  --secondary-foreground: #e8dfd4;
 
-  --muted: #111113;
-  --muted-foreground: #86868b;
+  --muted: #1a1714;
+  --muted-foreground: #a89b8c;
 
-  --accent: #f5f5f7;
-  --accent-foreground: #000000;
+  --accent: #c4a574;
+  --accent-foreground: #1c1916;
 
-  --destructive: #ff453a;
+  --destructive: #c44;
 
-  --border: #1d1d1f;
-  --input: #1d1d1f;
-  --ring: #2997ff;
+  --border: #2e2924;
+  --input: #1a1714;
+  --ring: #c45c26;
 
-  --gold: #f5f5f7;
-  --olive: #86868b;
-  --parchment: #0a0a0c;
+  --gold: #c4a574;
+  --olive: #a89b8c;
+  --parchment: #181512;
 
-  --easy: #0a2e1a;
-  --easy-foreground: #30d158;
+  --easy: #1a2e1c;
+  --easy-foreground: #8fbc8f;
 
-  --medium: #0a2540;
-  --medium-foreground: #64d2ff;
+  --medium: #1c2838;
+  --medium-foreground: #8eb4d4;
 
-  --hard: #2e2200;
-  --hard-foreground: #ffd60a;
+  --hard: #2e2410;
+  --hard-foreground: #d4b86a;
 
-  --extreme: #2e0a0a;
-  --extreme-foreground: #ff6961;
+  --extreme: #2e1818;
+  --extreme-foreground: #d49090;
 }
 
 @layer base {
@@ -97,12 +95,9 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-      "Helvetica Neue", "DM Sans", system-ui, sans-serif;
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.47059;
-    letter-spacing: -0.022em;
+    line-height: 1.5;
   }
 
   h1,
@@ -111,22 +106,20 @@
   h4,
   h5,
   h6 {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-      "Helvetica Neue", "Instrument Serif", Georgia, serif;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.08;
+    font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
     color: var(--color-foreground);
   }
 
   ::selection {
     background: color-mix(in srgb, var(--primary) 35%, transparent);
-    color: var(--foreground);
   }
 
   :focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--primary) 80%, transparent);
-    outline-offset: 3px;
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
 
   input,
@@ -134,13 +127,6 @@
   textarea,
   button {
     font: inherit;
-  }
-
-  a,
-  button {
-    transition: color 0.25s var(--ease-apple), background-color 0.25s
-        var(--ease-apple), border-color 0.25s var(--ease-apple),
-      opacity 0.25s var(--ease-apple), transform 0.35s var(--ease-out-expo);
   }
 }
 
@@ -152,177 +138,92 @@
     color: var(--color-gold);
   }
   .border-gold {
-    border-color: color-mix(in srgb, var(--color-gold) 25%, transparent);
+    border-color: color-mix(in srgb, var(--color-gold) 40%, transparent);
   }
   .text-olive {
     color: var(--color-olive);
   }
   .font-display {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-      "Helvetica Neue", sans-serif;
-    font-weight: 600;
+    font-family: "IBM Plex Serif", Georgia, serif;
   }
 }
 
-/* ——— Apple-style scroll reveal ——— */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity var(--duration) var(--ease-out-expo),
-    transform var(--duration) var(--ease-out-expo);
-  will-change: opacity, transform;
-}
-.reveal-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+/* Quiet entrance only — no scroll theater */
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes result-pop {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes hero-in {
-  from {
-    opacity: 0;
-    transform: translateY(32px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 
 .animate-fade-up {
-  animation: fade-up 0.8s var(--ease-out-expo) both;
+  animation: fade-up 0.4s ease-out both;
 }
 .animate-hero {
-  animation: hero-in 1s var(--ease-out-expo) both;
+  animation: fade-up 0.45s ease-out both;
 }
 .animate-scale-in {
-  animation: fade-up 0.6s var(--ease-out-expo) both;
+  animation: fade-up 0.35s ease-out both;
 }
 .animate-float {
   animation: none;
 }
 .animate-result {
-  animation: result-pop 0.5s var(--ease-out-expo) both;
+  animation: fade-up 0.3s ease-out both;
 }
 .delay-100 {
-  animation-delay: 0.1s;
+  animation-delay: 0.05s;
 }
 .delay-200 {
-  animation-delay: 0.2s;
+  animation-delay: 0.1s;
 }
-.delay-300 {
-  animation-delay: 0.3s;
+
+/* Reveal system kept for compatibility, but minimal */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
 }
 
 .hero-glow {
-  background: radial-gradient(
-    ellipse 80% 50% at 50% -10%,
-    color-mix(in srgb, var(--primary) 18%, transparent),
-    transparent 70%
-  );
+  background: none;
 }
-
 .hero-card-glow {
   box-shadow: none;
-  border-color: var(--border);
 }
 
 .card-lift {
-  transition: border-color 0.35s var(--ease-apple),
-    background-color 0.35s var(--ease-apple), transform 0.45s var(--ease-out-expo);
+  transition: border-color 0.15s ease;
 }
 .card-lift:hover {
-  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
-  background-color: color-mix(in srgb, var(--card) 92%, var(--primary));
-  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
 }
 
 .btn-shine {
-  transition: opacity 0.25s var(--ease-apple), transform 0.35s var(--ease-out-expo);
+  transition: opacity 0.15s ease;
 }
 .btn-shine:hover {
-  opacity: 0.9;
-}
-.btn-shine:active {
-  transform: scale(0.98);
+  opacity: 0.92;
 }
 
 .stagger > * {
-  animation: fade-up 0.7s var(--ease-out-expo) both;
-}
-.stagger > *:nth-child(1) {
-  animation-delay: 0.04s;
-}
-.stagger > *:nth-child(2) {
-  animation-delay: 0.08s;
-}
-.stagger > *:nth-child(3) {
-  animation-delay: 0.12s;
-}
-.stagger > *:nth-child(4) {
-  animation-delay: 0.16s;
-}
-.stagger > *:nth-child(5) {
-  animation-delay: 0.2s;
-}
-.stagger > *:nth-child(6) {
-  animation-delay: 0.24s;
-}
-.stagger > *:nth-child(7) {
-  animation-delay: 0.28s;
-}
-.stagger > *:nth-child(8) {
-  animation-delay: 0.32s;
-}
-.stagger > *:nth-child(9) {
-  animation-delay: 0.36s;
-}
-.stagger > *:nth-child(10) {
-  animation-delay: 0.4s;
-}
-.stagger > *:nth-child(11) {
-  animation-delay: 0.44s;
-}
-.stagger > *:nth-child(12) {
-  animation-delay: 0.48s;
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .reveal,
-  .reveal-visible {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
   .animate-fade-up,
   .animate-hero,
-  .animate-scale-in,
-  .animate-result,
-  .stagger > * {
+  .animate-result {
     animation: none !important;
   }
 }
