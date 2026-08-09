@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { PROBLEMS, type Difficulty } from "@/data/problems";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/Reveal";
 
 function formatDifficulty(value: Difficulty) {
   return value.charAt(0).toUpperCase() + value.slice(1);
@@ -47,110 +48,121 @@ const WINNER_URL = "https://lab-booker-pro.vercel.app/";
 export function HomePage() {
   return (
     <div className="flex flex-col">
-      <div className="border-b border-primary/25 bg-primary/10">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <p className="text-sm text-foreground">
-            <span className="font-semibold text-primary">Winner · </span>
+      {/* Winner strip */}
+      <div className="border-b border-white/10 bg-white/[0.03]">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 py-3.5 lg:px-8">
+          <p className="text-sm text-[#f5f5f7]">
+            <span className="font-semibold text-primary">Winner. </span>
             Lab Booker Pro — AI/ML Lab Slot Booker
           </p>
           <a
             href={WINNER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-background px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/10"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
-            Open winning demo <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+            Open demo <ExternalLink className="h-3.5 w-3.5" aria-hidden />
           </a>
         </div>
       </div>
 
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
-          <div className="max-w-3xl animate-fade-up">
+      {/* Hero — Apple product-page scale */}
+      <section className="hero-glow relative overflow-hidden">
+        <div className="mx-auto max-w-5xl px-6 pb-24 pt-20 text-center lg:px-8 lg:pb-32 lg:pt-28">
+          <div className="animate-hero">
             <p className="text-sm font-medium tracking-wide text-primary">
               Dept. of AI & ML · Jeppiaar Engineering College
             </p>
-            <h1 className="mt-3 text-4xl leading-[1.1] text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mx-auto mt-5 max-w-4xl text-5xl font-semibold tracking-tight text-[#f5f5f7] sm:text-6xl lg:text-7xl">
               AI Problem Solve-a-Thon
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              A 2-hour department event. Claim a real problem the AI & ML
-              department can use — attendance, labs, IATs, notices, mentoring —
-              build it, deploy on Vercel, submit the link, present.
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[#86868b] sm:text-xl">
+              Two hours. One real department problem. Build it, deploy it,
+              present it.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/problems"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+                className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 text-sm font-medium text-white hover:opacity-90"
               >
-                Get your problem <ArrowRight className="ml-2 h-4 w-4" />
+                Get your problem
               </Link>
               <Link
                 to="/submit"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3 text-sm font-medium text-[#f5f5f7] backdrop-blur hover:bg-white/10"
               >
-                <Rocket className="h-4 w-4 text-gold" /> Submit live link
+                <Rocket className="h-4 w-4" /> Submit live link
               </Link>
             </div>
 
-            <dl className="mt-10 grid gap-4 text-sm text-muted-foreground sm:grid-cols-3">
-              <div className="flex items-start gap-2">
-                <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <div>
-                  <dt className="font-medium text-foreground">Date</dt>
-                  <dd>Friday, 07 August 2026</dd>
-                </div>
+            <dl className="mx-auto mt-16 grid max-w-2xl gap-8 text-sm text-[#86868b] sm:grid-cols-3">
+              <div className="flex flex-col items-center gap-1.5">
+                <Calendar className="h-4 w-4 text-[#f5f5f7]/" />
+                <dt className="font-medium text-[#f5f5f7]">Date</dt>
+                <dd>07 August 2026</dd>
               </div>
-              <div className="flex items-start gap-2">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <div>
-                  <dt className="font-medium text-foreground">Time</dt>
-                  <dd>10:00 AM – 12:10 PM</dd>
-                </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Clock className="h-4 w-4 text-[#f5f5f7]/" />
+                <dt className="font-medium text-[#f5f5f7]">Time</dt>
+                <dd>10:00 – 12:10</dd>
               </div>
-              <div className="flex items-start gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <div>
-                  <dt className="font-medium text-foreground">Venue</dt>
-                  <dd>Elite Seminar Hall</dd>
-                </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <MapPin className="h-4 w-4 text-[#f5f5f7]/" />
+                <dt className="font-medium text-[#f5f5f7]">Venue</dt>
+                <dd>Elite Seminar Hall</dd>
               </div>
             </dl>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
-            <h2 className="text-2xl text-foreground">Run of show</h2>
-            <Link
-              to="/schedule"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Full schedule →
-            </Link>
-          </div>
-          <ol className="grid gap-0 divide-y divide-border border border-border sm:grid-cols-5 sm:divide-x sm:divide-y-0">
-            {AGENDA.map((s) => (
-              <li key={s.t} className="px-4 py-4 sm:px-3">
-                <p className="font-mono text-xs font-semibold text-accent">{s.t}</p>
-                <p className="mt-1 text-sm font-semibold text-foreground">{s.l}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{s.d}</p>
-              </li>
+      {/* Agenda */}
+      <section className="border-y border-white/10 bg-[#0c0c0e]">
+        <div className="mx-auto max-w-5xl px-6 py-20 lg:px-8 lg:py-24">
+          <Reveal>
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-3">
+              <h2 className="text-3xl font-semibold tracking-tight text-[#f5f5f7] sm:text-4xl">
+                Run of show
+              </h2>
+              <Link
+                to="/schedule"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                Full schedule →
+              </Link>
+            </div>
+          </Reveal>
+          <ol className="grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-5">
+            {AGENDA.map((s, i) => (
+              <Reveal key={s.t} delay={i * 60} as="li">
+                <div className="h-full bg-[#0c0c0e] px-5 py-6 sm:px-4">
+                  <p className="font-mono text-xs font-medium text-primary">
+                    {s.t}
+                  </p>
+                  <p className="mt-2 text-base font-semibold text-[#f5f5f7]">
+                    {s.l}
+                  </p>
+                  <p className="mt-1 text-sm text-[#86868b]">{s.d}</p>
+                </div>
+              </Reveal>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="border-b border-border px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="text-2xl text-foreground sm:text-3xl">What happens</h2>
-          <p className="mt-2 max-w-xl text-muted-foreground">
-            Four steps. No theory track — you leave with a deployed link.
-          </p>
-          <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Steps */}
+      <section className="px-6 py-24 lg:px-8 lg:py-28">
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <h2 className="text-3xl font-semibold tracking-tight text-[#f5f5f7] sm:text-4xl">
+              What happens
+            </h2>
+            <p className="mt-3 max-w-xl text-lg text-[#86868b]">
+              Four steps. You leave with a deployed link.
+            </p>
+          </Reveal>
+          <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 n: "01",
@@ -160,106 +172,118 @@ export function HomePage() {
               {
                 n: "02",
                 title: "Claim a problem",
-                text: "Enter size and contact on the Problems page. One team per problem.",
+                text: "Enter size and contact. One team per problem.",
               },
               {
                 n: "03",
                 title: "Build & deploy",
-                text: "Working demo on a public URL (Vercel preferred) before 11:40.",
+                text: "Working demo on a public URL before 11:40.",
               },
               {
                 n: "04",
                 title: "Submit & present",
-                text: "Paste the live link here, then pitch for 2–3 minutes.",
+                text: "Paste the live link, then pitch for 2–3 minutes.",
               },
-            ].map((item) => (
-              <li key={item.n} className="border-l-2 border-primary/40 pl-4">
-                <span className="font-mono text-xs font-semibold text-primary">
-                  {item.n}
-                </span>
-                <h3 className="mt-1 text-lg text-foreground">{item.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+            ].map((item, i) => (
+              <Reveal key={item.n} delay={i * 80} as="li">
+                <span className="text-sm font-medium text-primary">{item.n}</span>
+                <h3 className="mt-2 text-xl font-semibold text-[#f5f5f7]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-[#86868b]">
                   {item.text}
                 </p>
-              </li>
+              </Reveal>
             ))}
           </ol>
 
-          <div className="mt-12 border border-border bg-parchment px-5 py-5">
-            <h3 className="text-base font-semibold text-foreground">How we judge</h3>
-            <ul className="mt-3 grid gap-2 text-sm text-muted-foreground sm:grid-cols-3">
-              <li>
-                <span className="font-medium text-foreground">Clarity</span> — can a
-                judge understand the product in under a minute?
-              </li>
-              <li>
-                <span className="font-medium text-foreground">Usefulness</span> — does
-                the department actually need this?
-              </li>
-              <li>
-                <span className="font-medium text-foreground">Demo quality</span> — live
-                URL works; presentation is tight.
-              </li>
-            </ul>
-          </div>
+          <Reveal delay={120}>
+            <div className="mt-20 rounded-2xl bg-white/[0.04] px-8 py-8">
+              <h3 className="text-lg font-semibold text-[#f5f5f7]">
+                How we judge
+              </h3>
+              <ul className="mt-5 grid gap-6 text-[15px] text-[#86868b] sm:grid-cols-3">
+                <li>
+                  <span className="block font-medium text-[#f5f5f7]">
+                    Clarity
+                  </span>
+                  Understood in under a minute.
+                </li>
+                <li>
+                  <span className="block font-medium text-[#f5f5f7]">
+                    Usefulness
+                  </span>
+                  The department actually needs it.
+                </li>
+                <li>
+                  <span className="block font-medium text-[#f5f5f7]">
+                    Demo quality
+                  </span>
+                  Live URL works. Pitch is tight.
+                </li>
+              </ul>
+            </div>
+          </Reveal>
 
-          <div className="mt-10">
-            <Link
-              to="/problems"
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
-            >
-              Open problem generator <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <Reveal delay={80}>
+            <div className="mt-12 text-center sm:text-left">
+              <Link
+                to="/problems"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-medium text-white hover:opacity-90"
+              >
+                Open problem generator <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-2xl text-foreground sm:text-3xl">
-                Example problems
-              </h2>
-              <p className="mt-2 text-muted-foreground">
-                Built for faculty, labs, exam cell, and students — not toy demos.
-              </p>
-            </div>
-            <Link
-              to="/problems"
-              className="text-sm font-semibold text-primary hover:underline"
-            >
-              All problems →
-            </Link>
-          </div>
-          <ul className="divide-y divide-border border border-border">
-            {featured.map((idea) => (
-              <li
-                key={idea.id}
-                className="flex flex-col gap-2 px-5 py-4 transition-colors hover:bg-secondary/40 sm:flex-row sm:items-start sm:gap-6"
+      {/* Problems list */}
+      <section className="border-t border-white/10 bg-[#0c0c0e] px-6 py-24 lg:px-8 lg:py-28">
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <div className="mb-12 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-3xl font-semibold tracking-tight text-[#f5f5f7] sm:text-4xl">
+                  Example problems
+                </h2>
+                <p className="mt-3 text-lg text-[#86868b]">
+                  For faculty, labs, and students — not toy demos.
+                </p>
+              </div>
+              <Link
+                to="/problems"
+                className="text-sm font-medium text-primary hover:underline"
               >
-                <div className="flex shrink-0 items-center gap-2 sm:w-28 sm:flex-col sm:items-start sm:gap-1">
-                  <span
-                    className={cn(
-                      "rounded px-2 py-0.5 text-xs font-semibold",
-                      difficultyClass(idea.difficulty)
-                    )}
-                  >
-                    {formatDifficulty(idea.difficulty)}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {idea.category}
-                  </span>
+                All problems →
+              </Link>
+            </div>
+          </Reveal>
+          <ul className="divide-y divide-white/10">
+            {featured.map((idea, i) => (
+              <Reveal key={idea.id} delay={i * 70} as="li">
+                <div className="flex flex-col gap-3 py-7 transition-colors sm:flex-row sm:items-start sm:gap-8">
+                  <div className="flex shrink-0 items-center gap-2 sm:w-28 sm:flex-col sm:items-start sm:gap-1.5">
+                    <span
+                      className={cn(
+                        "rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        difficultyClass(idea.difficulty)
+                      )}
+                    >
+                      {formatDifficulty(idea.difficulty)}
+                    </span>
+                    <span className="text-xs text-[#86868b]">{idea.category}</span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-semibold text-[#f5f5f7]">
+                      {idea.title}
+                    </h3>
+                    <p className="mt-1.5 text-[15px] leading-relaxed text-[#86868b] line-clamp-2">
+                      {idea.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-base font-semibold text-foreground sm:text-lg">
-                    {idea.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground line-clamp-2">
-                    {idea.description}
-                  </p>
-                </div>
-              </li>
+              </Reveal>
             ))}
           </ul>
         </div>
