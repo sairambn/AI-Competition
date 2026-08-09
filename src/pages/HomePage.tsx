@@ -5,6 +5,7 @@ import {
   MapPin,
   ArrowRight,
   Rocket,
+  ExternalLink,
 } from "lucide-react";
 import { PROBLEMS, type Difficulty } from "@/data/problems";
 import { cn } from "@/lib/utils";
@@ -44,7 +45,24 @@ const AGENDA = [
 export function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* Hero — left-weighted, event-first, no floating logo card */}
+      {/* Winner banner */}
+      <div className="border-b border-primary/25 bg-primary/10">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+          <p className="text-sm text-foreground">
+            <span className="font-semibold text-primary">Winner · </span>
+            Lab Booker Pro — AI/ML Lab Slot Booker
+          </p>
+          <a
+            href="https://lab-booker-pro.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          >
+            Open winning demo <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-3xl animate-fade-up">
@@ -55,9 +73,9 @@ export function HomePage() {
               AI Problem Solve-a-Thon
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              A 2-hour department event. Pick a real problem the AI & ML
+              A 2-hour department event. Claim a real problem the AI & ML
               department can use — attendance, labs, IATs, notices, mentoring —
-              build it, put it on Vercel, submit the link, present.
+              build it, deploy on Vercel, submit the link, present.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -102,7 +120,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Agenda — horizontal timeline, not 5 equal marketing cards */}
       <section className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
@@ -126,7 +143,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* What you do — numbered list, not icon circles */}
       <section className="border-b border-border px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-2xl text-foreground sm:text-3xl">What happens</h2>
@@ -167,6 +183,25 @@ export function HomePage() {
               </li>
             ))}
           </ol>
+
+          <div className="mt-12 border border-border bg-parchment px-5 py-5">
+            <h3 className="text-base font-semibold text-foreground">How we judge</h3>
+            <ul className="mt-3 grid gap-2 text-sm text-muted-foreground sm:grid-cols-3">
+              <li>
+                <span className="font-medium text-foreground">Clarity</span> — can a
+                judge understand the product in under a minute?
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Usefulness</span> — does
+                the department actually need this?
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Demo quality</span> — live
+                URL works; presentation is tight.
+              </li>
+            </ul>
+          </div>
+
           <div className="mt-10">
             <Link
               to="/problems"
@@ -178,7 +213,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Sample problems — list-like, not 4 equal marketing tiles */}
       <section className="px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
