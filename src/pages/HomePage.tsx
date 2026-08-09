@@ -42,10 +42,11 @@ const AGENDA = [
   { t: "12:00", l: "Winners", d: "Results & close" },
 ];
 
+const WINNER_URL = "https://lab-booker-pro.vercel.app/";
+
 export function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* Winner banner */}
       <div className="border-b border-primary/25 bg-primary/10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <p className="text-sm text-foreground">
@@ -53,12 +54,12 @@ export function HomePage() {
             Lab Booker Pro — AI/ML Lab Slot Booker
           </p>
           <a
-            href="https://lab-booker-pro.vercel.app"
+            href={WINNER_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-background px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/10"
           >
-            Open winning demo <ExternalLink className="h-3.5 w-3.5" />
+            Open winning demo <ExternalLink className="h-3.5 w-3.5" aria-hidden />
           </a>
         </div>
       </div>
