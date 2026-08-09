@@ -18,7 +18,8 @@ export function Layout() {
 
   useEffect(() => {
     setOpen(false);
-    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    // Use classic scrollTo — avoids ScrollBehavior quirks on some mobile browsers
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   const linkClass = (to: string) =>
@@ -31,13 +32,6 @@ export function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
-      >
-        Skip to content
-      </a>
-
       <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
