@@ -3,46 +3,35 @@
 **Department of Artificial Intelligence & Machine Learning**  
 Jeppiaar Engineering College
 
-Event platform for a 2-hour department hackathon: assign problems by team size, register teams, collect live demos.
+Live event platform for a 2-hour department hackathon: problem assignment by team size, team registration, and live demo collection.
 
-**Live site:** [ai-thon-one.vercel.app](https://ai-thon-one.vercel.app)
+**Live site** → [ai-thon-one.vercel.app](https://ai-thon-one.vercel.app)
 
 ---
 
-## Winner
+## Outcome
 
 | | |
 |--|--|
 | **Winner** | **Lab Booker Pro** |
-| **Problem** | AI/ML Lab Slot Booker (Easy · Resource Management) |
+| **Problem** | AI/ML Lab Slot Booker (Resource Management) |
 | **Live demo** | [lab-booker-pro.vercel.app](https://lab-booker-pro.vercel.app) |
 
-### Why this won
-
-Judged on **clarity · usefulness for the department · demo quality**.
-
-- **Clarity** — Dashboard, booking flow, and machine inventory are easy to understand in a 2–3 minute presentation.
-- **Usefulness** — Directly solves fair GPU/lab access for the AI & ML department (no double-booking, approval states, fleet load).
-- **Demo quality** — Multi-page working product: home stats, book a slot, machine inventory, pending/approved/rejected activity — strongest interactive demo among submissions.
+Judged on clarity, usefulness for the department, and demo quality.
 
 ---
 
-## All evaluated submissions
+## Evaluated submissions
 
-| Rank | Solution | Problem match | Live URL |
-|------|----------|---------------|----------|
-| **1 — Winner** | **Lab Booker Pro** | AI/ML Lab Slot Booker | [lab-booker-pro.vercel.app](https://lab-booker-pro.vercel.app) |
-| 2 | CourseFlow Hub (IAT & Assignment Dropbox) | IAT / Assignment Dropbox | [courseflow-hub.vercel.app](https://courseflow-hub.vercel.app) |
+| Rank | Solution | Problem | Live URL |
+|------|----------|---------|----------|
+| **1** | Lab Booker Pro | AI/ML Lab Slot Booker | [lab-booker-pro.vercel.app](https://lab-booker-pro.vercel.app) |
+| 2 | CourseFlow Hub | IAT / Assignment Dropbox | [courseflow-hub.vercel.app](https://courseflow-hub.vercel.app) |
 | 3 | ExamNexus | Internal Exam Support Toolkit | [exam-nexus-iota.vercel.app](https://exam-nexus-iota.vercel.app) |
 
-### Notes on runners-up
-
-- **CourseFlow Hub** — Strong landing page aligned with the IAT/assignment dropbox problem (upload by subject, faculty review, late list). Dashboard was limited/auth-gated at review time.
-- **ExamNexus** — Matches the internal exam support toolkit problem; live page content was not fully evaluable at review time (client-heavy or incomplete shell).
-
 ---
 
-## Event
+## Event details
 
 | | |
 |--|--|
@@ -51,8 +40,8 @@ Judged on **clarity · usefulness for the department · demo quality**.
 | **Venue** | Elite Seminar Hall |
 | **Organiser** | Dept. of AI & ML |
 
-| Time | What |
-|------|------|
+| Time | Activity |
+|------|----------|
 | 10:00 | Check-in |
 | 10:30 | Get problem + register |
 | 10:45 | Build |
@@ -61,47 +50,34 @@ Judged on **clarity · usefulness for the department · demo quality**.
 
 ---
 
-## For teams (students)
+## For teams
 
-### 1. Get your problem
-Open the [live site → Problems](https://ai-thon-one.vercel.app/problems)
+1. Open [Problems](https://ai-thon-one.vercel.app/problems)
+2. Enter team name, size, and contact email → claim a problem
+3. Build a working demo (public URL preferred)
+4. Submit via the [Submit](https://ai-thon-one.vercel.app/submit) page
 
-1. Enter **team name**, **size**, **contact email**
-2. Click **Get free problem** (or claim a card)
-3. Click **Register & mark Taken** so organizers can see you
-
-### 2. Build
-Ship a working demo (any stack). Prefer a public URL (Vercel recommended).
-
-### 3. Submit live link
-Use the [Submit](https://ai-thon-one.vercel.app/submit) page with team details + public URL.
-
-Optional: also open a PR under `solutions/` (see [solutions/README.md](./solutions/README.md)).
+Optional: open a PR under `solutions/`.
 
 ---
 
 ## For organizers
 
-1. Activate FormSubmit once (link in organizer inbox)
-2. Watch **email** when teams register / submit
-3. Review live demos from the Submit / Entries flow
-4. Use the site **Organizer** page for links and run-of-show
+- Activate FormSubmit (one-time)
+- Monitor registration and submission emails
+- Review live demos
+- Use the Organizer page for run-of-show links
 
 ---
 
 ## Stack
 
 React · TypeScript · Vite · Tailwind CSS v4 · React Router  
-Deployed on Vercel (SPA). Registration & submissions: FormSubmit email.
-
-## Local development
+Deployed on Vercel (SPA). Registration via FormSubmit.
 
 ```bash
 npm install
 npm run dev
-```
-
-```bash
 npm run build
 ```
 
